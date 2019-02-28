@@ -28,7 +28,7 @@ class OutlierDetectionDataset:
         listing=os.listdir(self.path)
         for in_file in listing:
             if in_file.endswith(".txt"):
-                cluster_file=open(path_dataset+in_file).readlines()
+                cluster_file=open(self.path+in_file).readlines()
                 cluster_name=in_file.replace(".txt","")
                 set_elements=set()
                 set_outliers=set()
