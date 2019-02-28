@@ -36,7 +36,7 @@ class OutlierDetectionDataset:
                 for line in cluster_file:
                     if cluster_boolean:
                         if line!="\n":
-                            word=line.strip().decode('utf-8').replace(" ","_")
+                            word=line.strip().replace(" ","_") # removed .decode('utf-8') when changing to python3
                             set_elements.add(word)
                             self.setWords.add(word)
                             if "_" in word:
@@ -45,7 +45,7 @@ class OutlierDetectionDataset:
                         else: cluster_boolean=False  
                     else:
                         if line!="\n":
-                            word=line.strip().decode('utf-8').replace(" ","_")
+                            word=line.strip().replace(" ","_") # removed .decode('utf-8') when changing to python3
                             set_outliers.add(word)
                             self.setWords.add(word)
                             if "_" in word:
@@ -57,7 +57,7 @@ def boolean_answer(answer):
     if answer.lower()=="y" or answer.lower()=="yes": return True
     elif answer.lower()=="n" or answer.lower()=="no": return False
     else:
-        new_answer=raw_input('Please answer "Yes" or "No"')
+        new_answer=input('Please answer "Yes" or "No"')
         return boolean_answer(new_answer)
         
     
@@ -116,7 +116,7 @@ def getting_vectors(path_vectors,set_words):
     vectors={}
     vectors_file=fileinput.FileInput(path_vectors)
     for line in vectors_file:
-        word=line.split(" ",1)[0].decode('utf-8')
+        word=line.split(" ",1)[0] # removed .decode('utf-8') when changing to python3
         if word in set_words:
             linesplit=line.strip().split(" ")
             if dimensions!=len(linesplit)-1:
@@ -125,7 +125,7 @@ def getting_vectors(path_vectors,set_words):
             vectors[word]=[]
             for i in range(dimensions):
                 vectors[word].append(float(linesplit[i+1]))
-    print ("Number of vector dimensions: "+str(dimensions))
+    print(("Number of vector dimensions: "+str(dimensions)))
     for word in set_words:
         if word not in vectors:
             vectors[word]=compose_vectors_multiword(word,vectors,dimensions)
@@ -145,8 +145,8 @@ def main(path_dataset, path_vectors):
     detailedResultsString=""
     resultsByClusterString=""
     for cluster in dataset.clusters:
-        resultsByClusterString+="\n\n -- "+cluster.topic.encode('utf-8')+" --"
-        detailedResultsString+="\n\n -- "+cluster.topic.encode('utf-8')+" --\n"
+        resultsByClusterString+="\n\n -- "+cluster.topic+" --" # removed .decode('utf-8') when changing to python3
+        detailedResultsString+="\n\n -- "+cluster.topic+" --\n" # removed .decode('utf-8') when changing to python3
         dictSim=pairwisesimilarities_cluster(cluster.elements,input_vectors)
         numOutliersDetectedCluster=0
         sumPositionsCluster=0
@@ -162,10 +162,10 @@ def main(path_dataset, path_vectors):
                     if element_cluster_1!=element_cluster_2:
                         compScoreElement+=dictSim[element_cluster_1+" "+element_cluster_2]
                 dictCompactness[element_cluster_1]=compScoreElement
-                detailedResultsString+="\nP-compactness "+element_cluster_1.encode('utf-8')+" : "+str(compScoreElement/len(cluster.elements))
+                detailedResultsString+="\nP-compactness "+element_cluster_1+" : "+str(compScoreElement/len(cluster.elements)) # removed .decode('utf-8') when changing to python3
             dictCompactness[outlier]=compScoreOutlier
-            detailedResultsString+="\nP-compactness "+outlier.encode('utf-8')+" : "+str(compScoreOutlier/len(cluster.elements))
-            sortedListCompactness=(sorted(dictCompactness.iteritems(), key=operator.itemgetter(1),reverse=True))
+            detailedResultsString+="\nP-compactness "+outlier+" : "+str(compScoreOutlier/len(cluster.elements)) # removed .decode('utf-8') when changing to python3
+            sortedListCompactness=(sorted(iter(dictCompactness.items()), key=operator.itemgetter(1),reverse=True))
             position=0
             for element_score in sortedListCompactness:
                 element=element_score[0]
@@ -174,7 +174,7 @@ def main(path_dataset, path_vectors):
                     if position==len(cluster.elements): numOutliersDetectedCluster+=1
                     break
                 position+=1
-            detailedResultsString+="\nPosition outlier "+outlier.encode('utf-8')+" : "+str(position)+"/"+str(len(cluster.elements))+"\n"
+            detailedResultsString+="\nPosition outlier "+outlier+" : "+str(position)+"/"+str(len(cluster.elements))+"\n" # removed .decode('utf-8') when changing to python3
             
         numOutliersDetected+=numOutliersDetectedCluster
         sumPositionsPercentage+=(sumPositionsCluster*1.0)/len(cluster.elements)
@@ -187,15 +187,15 @@ def main(path_dataset, path_vectors):
     scoreOPP=((sumPositionsPercentage*1.0)/countTotalOutliers)*100
     accuracy=((numOutliersDetected*1.0)/countTotalOutliers)*100.0
     print ("\n\n ---- OVERALL RESULTS ----\n")
-    print ("OPP score: "+str(scoreOPP))
-    print ("Accuracy: "+str(accuracy))
-    print ("\nTotal number of outliers: "+str(countTotalOutliers))
+    print(("OPP score: "+str(scoreOPP)))
+    print(("Accuracy: "+str(accuracy)))
+    print(("\nTotal number of outliers: "+str(countTotalOutliers)))
 
-    answer=raw_input("\n\nWould you like to see the results by topic? [Y|N]")
+    answer=input("\n\nWould you like to see the results by topic? [Y|N]")
     boolean=boolean_answer(answer)
     if boolean==True:
         print (resultsByClusterString)
-        answer_2=raw_input("\n\nWould you like to see a more detailed summary? [Y|N]")
+        answer_2=input("\n\nWould you like to see a more detailed summary? [Y|N]")
         boolean_2=boolean_answer(answer_2)
         if boolean_2==True:
             print (detailedResultsString)
