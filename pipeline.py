@@ -4,27 +4,58 @@ from Outlier_detection import scorer_outlierdetection as so
 from conllu import parse_incr
 from collections import OrderedDict
 
-# create a file (dep.contexts) where each line is: word context
-def create_word_and_context_file_word2vecf(conllu_file):
-    with open("dep.contexts", "w") as parsed_conllu_file:
-        with open(conllu_file, "r") as data_file:
-            for tokenlist in parse_incr(data_file):
-                for bigram in tokenlist[0].items():
-                    # TODO: Fix nested OrderedDicts
-                    #if not isinstance(bigram[1], OrderedDict):
-                    parsed_conllu_file.write("%s %s\n" % (bigram[0], bigram[1]))
 
-# create word and context vocabularies (cv and wv)
+def create_word_and_context_file_word2vecf(conllu_file):
+    """ Create a file with words and their context.
+
+    This function create a file (dep.contexts) where
+    each line is on the form: <word> <context>.
+
+    Args:
+        conll_file: The path to the conllu file that
+        contains the information about the words in the
+        corpus and their corresponding data
+    """
+    pass
+
+
 def create_vocabs_word2vecf(path_to_word2vecf_folder):
+    """ Create word and context vocabularies.
+
+    This function creates a word vocabulary (wv) and 
+    a context vocabularie (cv), based on the dep.contexts
+    file.
+
+    Args:
+        path_to_word2vecf_folder: The path to the
+        folder where the executable count_and_filer file 
+        is located.
+    """
+
     os.system("%s/count_and_filter \
         -train dep.contexts \
         -cvocab cv \
         -wvocab wv \
         -min-count 100" % path_to_word2vecf_folder)
 
-# trains the word embedding vectors with word2vecf
-# both the word vectors and the context vectors
+
 def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_conllu_file):
+    """ Trains the word embedding vectors with word2vecf.
+        
+    This function creates the file vectors.txt 
+    containing the word embedding vectors for the 
+    words in the corpus, and the vectors for the
+    context.
+
+    Args:
+        path_to_word2vecf_folder: The path to the
+        folder where the executable word2vecf file 
+        is located.
+        path_to_conllu_file: The path to the conllu file that
+        contains the information about the words in the
+        corpus and their corresponding data
+    """
+
     create_word_and_context_file_word2vecf(path_to_conllu_file)
     create_vocabs_word2vecf("./%s" % path_to_word2vecf_folder)
     os.system("%s/word2vecf \
@@ -37,8 +68,23 @@ def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_con
         -threads 10 \
         -dumpcv dim200context-vecs" % path_to_word2vecf_folder)    
 
-# trains the word embedding vectors with word2vec 
+ 
 def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset):
+    """Trains the word embedding vectors with word2vec.
+    
+    The vectors generated from running this function
+    is outputted to the file vectors.txt.
+
+    Args:
+        path_to_word2vecf_folder: The path to the
+        folder where the executable word2vec file 
+        is located. (It is not a mistake it is to the 
+        word2vecf folder. This folder also contains
+        an implementation of word2vec).
+        path_to_dataset: The path to the dataset that
+        should be used to extract word embeddings from.
+    """
+
     os.system("%s/word2vec \
         -train %s \
         -output ../vectors.txt \
@@ -50,10 +96,10 @@ def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset):
         -sample 1e-3 \
         -threads 12" % (path_to_word2vecf_folder, path_to_dataset))    
 
-# runs the outlier detection script from the outlier detection paper
-# on the word embedding vectors created from either word2vec or word2vecf
 def run_outlier_detection():
-    # os.system("cd Outlier_detection && python3 scorer_outlierdetection.py 8-8-8_Dataset/ ../vectors.txt")
+    """Runs the outlier detection script from the outlier detection paper
+    on the word embedding vectors in the file vectors.txt"""
+    
     so.main('Outlier_detection/8-8-8_Dataset/', 'vectors.txt')
 
 class Args:
