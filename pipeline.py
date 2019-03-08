@@ -4,20 +4,24 @@ from Outlier_detection import scorer_outlierdetection as so
 from conllu import parse_incr
 from collections import OrderedDict
 
+# convert files with: cat PATH_TO_CONLLU_FILE | perl conllu_to_conllx.pl  > PATH_TO_WHERE_CONVERTED_FILE_IS_SAVED
+# get it by cloning: https://github.com/UniversalDependencies/tools
 
-def create_word_and_context_file_word2vecf(conllu_file):
+def create_word_and_context_file_word2vecf(path_to_conllu_file):
     """ Create a file with words and their context.
 
     This function create a file (dep.contexts) where
     each line is on the form: <word> <context>.
 
     Args:
-        conll_file: The path to the conllu file that
+        path_to_conllu_file: The path to the conllu file that
         contains the information about the words in the
         corpus and their corresponding data
     """
-    pass
 
+    os.system("cut -f 2 %s | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/vocab.py 50 > counted_vocabulary" % path_to_conllu_file) 
+    os.system("cat %s | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/extract_deps.py counted_vocabulary  100 > dep.contexts" % path_to_conllu_file)
+    
 
 def create_vocabs_word2vecf(path_to_word2vecf_folder):
     """ Create word and context vocabularies.
@@ -36,7 +40,7 @@ def create_vocabs_word2vecf(path_to_word2vecf_folder):
         -train dep.contexts \
         -cvocab cv \
         -wvocab wv \
-        -min-count 100" % path_to_word2vecf_folder)
+        -min-count 50" % path_to_word2vecf_folder) 
 
 
 def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_conllu_file):
@@ -64,9 +68,9 @@ def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_con
         -cvocab cv \
         -output vectors.txt \
         -size 200 \
-        -negative 15 \
-        -threads 10 \
-        -dumpcv dim200context-vecs" % path_to_word2vecf_folder)    
+        -negative 1 \
+        -threads 12 \
+        -dumpcv dim200context-vecs" % path_to_word2vecf_folder)
 
  
 def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset):
@@ -84,15 +88,15 @@ def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset):
         path_to_dataset: The path to the dataset that
         should be used to extract word embeddings from.
     """
-
+    
     os.system("%s/word2vec \
         -train %s \
-        -output ../vectors.txt \
+        -output vectors.txt \
         -cbow 0 \
         -size 200 \
         -window 5 \
-        -negative 0 \
-        -hs 1 \
+        -negative 15 \
+        -hs 0 \
         -sample 1e-3 \
         -threads 12" % (path_to_word2vecf_folder, path_to_dataset))    
 
@@ -118,7 +122,7 @@ This might take some time [Y/n]:'.format(values)).lower()
         while answer not in ['y', 'n']:
             answer = input('[Y/n]: ')
         
-        return (True if answer == 'y' else False)
+        return answer == 'y'
     
     
     def __call__(self, parser, namespace, values, option_string=None):
@@ -128,9 +132,9 @@ This might take some time [Y/n]:'.format(values)).lower()
         print('Vectorizing with method: {}'.format(values))
 
         if values in ['word2vec', 'w2v']:
-            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "en_ewt-ud-train.txt") 
+            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt") 
         elif values in ['word2vecf', 'w2vf']: 
-            train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "en_ewt-ud-train.conllu")
+            train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/Converted_combined_english_text.conllu")
 
 
 class Task(argparse.Action):
