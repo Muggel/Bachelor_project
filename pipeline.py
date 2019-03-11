@@ -14,8 +14,8 @@ def create_word_and_context_file_word2vecf(path_to_conllu_file):
 
     Args:
         path_to_conllu_file: The path to the conllu file that
-        contains the information about the words in the
-        corpus and their corresponding data
+            contains the information about the words in the
+            corpus and their corresponding data
     """
 
     os.system("cut -f 2 %s | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/vocab.py 50 > counted_vocabulary" % path_to_conllu_file) 
@@ -31,8 +31,8 @@ def create_vocabs_word2vecf(path_to_word2vecf_folder):
 
     Args:
         path_to_word2vecf_folder: The path to the
-        folder where the executable count_and_filer file 
-        is located.
+            folder where the executable count_and_filer file 
+            is located.
     """
 
     os.system("%s/count_and_filter \
@@ -52,11 +52,11 @@ def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_con
 
     Args:
         path_to_word2vecf_folder: The path to the
-        folder where the executable word2vecf file 
-        is located.
+            folder where the executable word2vecf file 
+            is located.
         path_to_conllu_file: The path to the conllu file that
-        contains the information about the words in the
-        corpus and their corresponding data
+            contains the information about the words in the
+            corpus and their corresponding data
     """
 
     create_word_and_context_file_word2vecf(path_to_conllu_file)
@@ -66,13 +66,13 @@ def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_con
         -wvocab wv \
         -cvocab cv \
         -output vectors.txt \
-        -size 200 \
+        -size 300 \
         -negative 1 \
         -threads 12 \
         -dumpcv dim200context-vecs" % path_to_word2vecf_folder)
 
  
-def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset):
+def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, cbow_or_skipgram):
     """Trains the word embedding vectors with word2vec.
     
     The vectors generated from running this function
@@ -80,24 +80,25 @@ def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset):
 
     Args:
         path_to_word2vecf_folder: The path to the
-        folder where the executable word2vec file 
-        is located. (It is not a mistake it is to the 
+            folder where the executable word2vec file 
+            is located. (It is not a mistake it is to the 
         word2vecf folder. This folder also contains
-        an implementation of word2vec).
-        path_to_dataset: The path to the dataset that
-        should be used to extract word embeddings from.
+            an implementation of word2vec).
+            path_to_dataset: The path to the dataset that
+            should be used to extract word embeddings from.
+        cbow_or_skipgram: If 0 run cbow. If 1 run skip-gram
     """
     
-    os.system("%s/word2vec \
-        -train %s \
+    os.system("{}/word2vec \
+        -train {} \
         -output vectors.txt \
-        -cbow 0 \
-        -size 200 \
+        -cbow {} \
+        -size 300 \
         -window 5 \
         -negative 15 \
         -hs 0 \
         -sample 1e-3 \
-        -threads 12" % (path_to_word2vecf_folder, path_to_dataset))    
+        -threads 12".format(path_to_word2vecf_folder, path_to_dataset, cbow_or_skipgram))    
 
 def run_outlier_detection():
     """Runs the outlier detection script from the outlier detection paper
@@ -128,8 +129,10 @@ This might take some time [Y/n]:'.format(values)).lower()
         if not self.getConfirmation(values):
             return
     
-        if values in ['word2vec', 'w2v']:
-            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt") 
+        if values == 'cbow':
+            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", 0) 
+        elif values == 'skipgram':
+            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", 1) 
         elif values in ['word2vecf', 'w2vf']: 
             train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/Converted_combined_english_text.conllu")
 
