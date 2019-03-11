@@ -1,7 +1,6 @@
 import os
 import argparse
 from Outlier_detection import scorer_outlierdetection as so
-from conllu import parse_incr
 from collections import OrderedDict
 
 # convert files with: cat PATH_TO_CONLLU_FILE | perl conllu_to_conllx.pl  > PATH_TO_WHERE_CONVERTED_FILE_IS_SAVED
@@ -128,14 +127,11 @@ This might take some time [Y/n]:'.format(values)).lower()
     def __call__(self, parser, namespace, values, option_string=None):
         if not self.getConfirmation(values):
             return
-
-        print('Vectorizing with method: {}'.format(values))
-
+    
         if values in ['word2vec', 'w2v']:
             train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt") 
         elif values in ['word2vecf', 'w2vf']: 
             train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/Converted_combined_english_text.conllu")
-
 
 class Task(argparse.Action):
     def __init__(self, choices, dest, option_strings, nargs=None, **kwargs):
