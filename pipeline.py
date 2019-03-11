@@ -18,8 +18,8 @@ def create_word_and_context_file_word2vecf(path_to_conllu_file):
             corpus and their corresponding data
     """
 
-    os.system("cut -f 2 %s | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/vocab.py 50 > counted_vocabulary" % path_to_conllu_file) 
-    os.system("cat %s | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/extract_deps.py counted_vocabulary  100 > dep.contexts" % path_to_conllu_file)
+    os.system("cut -f 2 {} | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/vocab.py 50 > counted_vocabulary".format(path_to_conllu_file))
+    os.system("cat {} | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/extract_deps.py counted_vocabulary  100 > dep.contexts".format(path_to_conllu_file))
     
 
 def create_vocabs_word2vecf(path_to_word2vecf_folder):
@@ -35,11 +35,11 @@ def create_vocabs_word2vecf(path_to_word2vecf_folder):
             is located.
     """
 
-    os.system("%s/count_and_filter \
+    os.system("{}/count_and_filter \
         -train dep.contexts \
         -cvocab cv \
         -wvocab wv \
-        -min-count 50" % path_to_word2vecf_folder) 
+        -min-count 50".format(path_to_word2vecf_folder))
 
 
 def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_conllu_file):
@@ -60,8 +60,8 @@ def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_con
     """
 
     create_word_and_context_file_word2vecf(path_to_conllu_file)
-    create_vocabs_word2vecf("./%s" % path_to_word2vecf_folder)
-    os.system("%s/word2vecf \
+    create_vocabs_word2vecf("./{}".format(path_to_word2vecf_folder))
+    os.system("{}/word2vecf \
         -train dep.contexts \
         -wvocab wv \
         -cvocab cv \
@@ -69,10 +69,10 @@ def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_con
         -size 300 \
         -negative 1 \
         -threads 12 \
-        -dumpcv dim200context-vecs" % path_to_word2vecf_folder)
+        -dumpcv dim200context-vecs".format(path_to_word2vecf_folder))
 
  
-def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, cbow_or_skipgram):
+def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, outputfile, cbow_or_skipgram, window, negative, hs):
     """Trains the word embedding vectors with word2vec.
     
     The vectors generated from running this function
@@ -88,17 +88,17 @@ def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, cbow
             should be used to extract word embeddings from.
         cbow_or_skipgram: If 0 run cbow. If 1 run skip-gram
     """
-    
+
     os.system("{}/word2vec \
         -train {} \
-        -output vectors.txt \
+        -output {} \
         -cbow {} \
         -size 300 \
-        -window 5 \
-        -negative 15 \
-        -hs 0 \
+        -window {} \
+        -negative {} \
+        -hs {} \
         -sample 1e-3 \
-        -threads 12".format(path_to_word2vecf_folder, path_to_dataset, cbow_or_skipgram))    
+        -threads 12".format(path_to_word2vecf_folder, path_to_dataset, outputfile, cbow_or_skipgram, window, negative, hs))    
 
 def run_outlier_detection():
     """Runs the outlier detection script from the outlier detection paper
@@ -130,11 +130,12 @@ This might take some time [Y/n]:'.format(values)).lower()
             return
     
         if values == 'cbow':
-            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", 0) 
+            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", "vectors_cbow.txt", 0, 5, 0, 1) 
         elif values == 'skipgram':
-            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", 1) 
+            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", "vectors_skipgram.txt", 1, 10, 15, 0) 
         elif values in ['word2vecf', 'w2vf']: 
             train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/Converted_combined_english_text.conllu")
+
 
 class Task(argparse.Action):
     def __init__(self, choices, dest, option_strings, nargs=None, **kwargs):
