@@ -1,0 +1,788 @@
+Running task: 1
+
+Reading outlier detection dataset...
+Loading word vectors...
+Number of vector dimensions: 300
+Vectors already loaded
+
+
+ ---- OVERALL RESULTS ----
+
+OPP score: 91.2109375
+Accuracy: 57.8125
+
+Total number of outliers: 64
+
+
+Would you like to see the results by topic? [Y|N]
+
+ -- German_car_manufacturers --
+Average outlier position in this topic: 75.0
+Outliers detected percentage in this topic: 0.0
+Number of outliers in this topic: 8
+
+ -- European_football_teams --
+Average outlier position in this topic: 93.75
+Outliers detected percentage in this topic: 37.5
+Number of outliers in this topic: 8
+
+ -- Months --
+Average outlier position in this topic: 100.0
+Outliers detected percentage in this topic: 33.33333333333333
+Number of outliers in this topic: 8
+
+ -- Apostles_of_Jesus_Christ --
+Average outlier position in this topic: 90.625
+Outliers detected percentage in this topic: 15.625
+Number of outliers in this topic: 8
+
+ -- Solar_System_planets --
+Average outlier position in this topic: 89.0625
+Outliers detected percentage in this topic: 15.0
+Number of outliers in this topic: 8
+
+ -- Big_cats --
+Average outlier position in this topic: 89.0625
+Outliers detected percentage in this topic: 2.083333333333333
+Number of outliers in this topic: 8
+
+ -- SouthAmerica --
+Average outlier position in this topic: 100.0
+Outliers detected percentage in this topic: 14.285714285714285
+Number of outliers in this topic: 8
+
+ -- Information_Technology_companies --
+Average outlier position in this topic: 92.1875
+Outliers detected percentage in this topic: 4.6875
+Number of outliers in this topic: 8
+
+
+Would you like to see a more detailed summary? [Y|N]
+
+ -- German_car_manufacturers --
+
+P-compactness BMW : 0.4570490676305905
+P-compactness Smart : 0.11810736592741936
+P-compactness Porsche : 0.406439289233607
+P-compactness Mercedes_Benz : 0.46230418453570116
+P-compactness Volkswagen : 0.44931778830104774
+P-compactness Audi : 0.43504546605213695
+P-compactness Alpina : 0.09610347829544713
+P-compactness Opel : 0.36990853374683746
+P-compactness Michelin : 0.3059808245035371
+Position outlier Michelin : 6/8
+
+P-compactness BMW : 0.43624385029517954
+P-compactness Smart : 0.11423001023070203
+P-compactness Porsche : 0.3950900766018614
+P-compactness Mercedes_Benz : 0.4509808456656951
+P-compactness Volkswagen : 0.43059902454317944
+P-compactness Audi : 0.4153509307279001
+P-compactness Alpina : 0.09377392388195575
+P-compactness Opel : 0.34947669995547154
+P-compactness Michael_Schumacher : 0.19745101268269472
+Position outlier Michael_Schumacher : 6/8
+
+P-compactness BMW : 0.431900099072826
+P-compactness Smart : 0.10787221592728244
+P-compactness Porsche : 0.3900452035073238
+P-compactness Mercedes_Benz : 0.44061332405271303
+P-compactness Volkswagen : 0.43787591292415573
+P-compactness Audi : 0.41012386394614336
+P-compactness Alpina : 0.0867879562691896
+P-compactness Opel : 0.3542825815091666
+P-compactness Capri : 0.17120680798955037
+Position outlier Capri : 6/8
+
+P-compactness BMW : 0.4328530285042175
+P-compactness Smart : 0.10559250598925002
+P-compactness Porsche : 0.37368135862355367
+P-compactness Mercedes_Benz : 0.446468286967966
+P-compactness Volkswagen : 0.4304357051776124
+P-compactness Audi : 0.40096196877465445
+P-compactness Alpina : 0.09654740889797477
+P-compactness Opel : 0.3552898650879031
+P-compactness Angela_Merkel : 0.1535357788038816
+Position outlier Angela_Merkel : 6/8
+
+P-compactness BMW : 0.4388601252233514
+P-compactness Smart : 0.09958178015993921
+P-compactness Porsche : 0.3875859418017214
+P-compactness Mercedes_Benz : 0.44843266843346674
+P-compactness Volkswagen : 0.4375930035845038
+P-compactness Audi : 0.42178859556184245
+P-compactness Alpina : 0.09693998086732353
+P-compactness Opel : 0.36131051775405737
+P-compactness Boeing : 0.20379826416695557
+Position outlier Boeing : 6/8
+
+P-compactness BMW : 0.46664906471693446
+P-compactness Smart : 0.11901218963213328
+P-compactness Porsche : 0.407371598252246
+P-compactness Mercedes_Benz : 0.467058760179763
+P-compactness Volkswagen : 0.4557658608902544
+P-compactness Audi : 0.4387519691796519
+P-compactness Alpina : 0.10030929273589993
+P-compactness Opel : 0.365747183270469
+P-compactness Samsung : 0.33237156963810177
+Position outlier Samsung : 6/8
+
+P-compactness BMW : 0.46007853026261025
+P-compactness Smart : 0.09978084845581073
+P-compactness Porsche : 0.4104560197228512
+P-compactness Mercedes_Benz : 0.4714577332825443
+P-compactness Volkswagen : 0.45843715349401637
+P-compactness Audi : 0.4426773593588313
+P-compactness Alpina : 0.1062154698061243
+P-compactness Opel : 0.37496368345652237
+P-compactness Bridgestone : 0.33577244862006056
+Position outlier Bridgestone : 6/8
+
+P-compactness BMW : 0.41308098753719935
+P-compactness Smart : 0.10534353218605277
+P-compactness Porsche : 0.37394055223297357
+P-compactness Mercedes_Benz : 0.43778566335654256
+P-compactness Volkswagen : 0.4260409061587346
+P-compactness Audi : 0.4041131867042637
+P-compactness Alpina : 0.10405674236144423
+P-compactness Opel : 0.3466308381404278
+P-compactness pineapple : 0.12269805945838823
+Position outlier pineapple : 6/8
+
+
+ -- European_football_teams --
+
+P-compactness Borussia_Dortmund : 0.3611263259900231
+P-compactness Juventus : 0.3830046498391048
+P-compactness Bayern_Munich : 0.39796512003685747
+P-compactness AC_Milan : 0.33967516068069037
+P-compactness FC_Barcelona : 0.4488764684643223
+P-compactness Real_Madrid : 0.3398262267609076
+P-compactness Chelsea : 0.2830648623624662
+P-compactness Atletico_Madrid : 0.41104184951203887
+P-compactness Miami_Dolphins : 0.2671872199990833
+Position outlier Miami_Dolphins : 8/8
+
+P-compactness Borussia_Dortmund : 0.35642868367303243
+P-compactness Juventus : 0.357141610988078
+P-compactness Bayern_Munich : 0.40364316956663504
+P-compactness AC_Milan : 0.319009515146889
+P-compactness FC_Barcelona : 0.4351787940745486
+P-compactness Real_Madrid : 0.32188513864459
+P-compactness Chelsea : 0.2620118634702224
+P-compactness Atletico_Madrid : 0.39002097403068176
+P-compactness McLaren : 0.14792630594735
+Position outlier McLaren : 8/8
+
+P-compactness Borussia_Dortmund : 0.36649798563740116
+P-compactness Juventus : 0.38633735408393954
+P-compactness Bayern_Munich : 0.4123040840869512
+P-compactness AC_Milan : 0.3367566072868557
+P-compactness FC_Barcelona : 0.44319000907655226
+P-compactness Real_Madrid : 0.3363924454952096
+P-compactness Chelsea : 0.28260755364787926
+P-compactness Atletico_Madrid : 0.4162615833035696
+P-compactness Los_Angeles_Lakers : 0.28295417897103103
+Position outlier Los_Angeles_Lakers : 7/8
+
+P-compactness Borussia_Dortmund : 0.3364517179450291
+P-compactness Juventus : 0.3517642616539428
+P-compactness Bayern_Munich : 0.38254678759563765
+P-compactness AC_Milan : 0.32728978042087786
+P-compactness FC_Barcelona : 0.4155345270071805
+P-compactness Real_Madrid : 0.3238914381534596
+P-compactness Chelsea : 0.25999078378007434
+P-compactness Atletico_Madrid : 0.3941485149753656
+P-compactness couch : 0.09422436788424034
+Position outlier couch : 8/8
+
+P-compactness Borussia_Dortmund : 0.368269162846438
+P-compactness Juventus : 0.38552115866497044
+P-compactness Bayern_Munich : 0.4041294556974888
+P-compactness AC_Milan : 0.3322645612852431
+P-compactness FC_Barcelona : 0.4405770397505324
+P-compactness Real_Madrid : 0.32235071614716276
+P-compactness Chelsea : 0.27084604442940236
+P-compactness Atletico_Madrid : 0.3967537085517485
+P-compactness football : 0.22331840372565923
+Position outlier football : 8/8
+
+P-compactness Borussia_Dortmund : 0.3571972837379083
+P-compactness Juventus : 0.3538645823703182
+P-compactness Bayern_Munich : 0.3919673906909586
+P-compactness AC_Milan : 0.33690375392426886
+P-compactness FC_Barcelona : 0.41661157326497655
+P-compactness Real_Madrid : 0.3035437405697973
+P-compactness Chelsea : 0.2596896306725741
+P-compactness Atletico_Madrid : 0.3786578095716461
+P-compactness fridge : 0.1010423211551208
+Position outlier fridge : 8/8
+
+P-compactness Borussia_Dortmund : 0.39951369696474
+P-compactness Juventus : 0.39122426635554064
+P-compactness Bayern_Munich : 0.433270980212318
+P-compactness AC_Milan : 0.34701347207576927
+P-compactness FC_Barcelona : 0.45662856529506834
+P-compactness Real_Madrid : 0.3335910896038002
+P-compactness Chelsea : 0.27578758909849943
+P-compactness Atletico_Madrid : 0.4141840355385213
+P-compactness Bundesliga : 0.35382025149692986
+Position outlier Bundesliga : 5/8
+
+P-compactness Borussia_Dortmund : 0.34733831336665427
+P-compactness Juventus : 0.34157883224542396
+P-compactness Bayern_Munich : 0.3753692597099325
+P-compactness AC_Milan : 0.31277435525684844
+P-compactness FC_Barcelona : 0.4157761676031573
+P-compactness Real_Madrid : 0.3080294410950068
+P-compactness Chelsea : 0.2373416301199059
+P-compactness Atletico_Madrid : 0.3794711639479894
+P-compactness goal : 0.020285719697591333
+Position outlier goal : 8/8
+
+
+ -- Months --
+
+P-compactness September : 0.7730555744283447
+P-compactness November : 0.820599480031873
+P-compactness February : 0.8226139801984916
+P-compactness March : 0.8314335870678117
+P-compactness June : 0.8255307025742761
+P-compactness May : 0.7913785814323759
+P-compactness January : 0.8210808971833362
+P-compactness July : 0.8260746458384728
+P-compactness year : 0.19444398738942315
+Position outlier year : 8/8
+
+P-compactness September : 0.7579428738667991
+P-compactness November : 0.8097379544935501
+P-compactness February : 0.8092653172749252
+P-compactness March : 0.820775783801635
+P-compactness June : 0.8123468500599363
+P-compactness May : 0.7816613744297989
+P-compactness January : 0.8037333115579596
+P-compactness July : 0.8080207237555276
+P-compactness paper : 0.0861607278745729
+Position outlier paper : 8/8
+
+P-compactness September : 0.7714814759766445
+P-compactness November : 0.8221394747554069
+P-compactness February : 0.827821303725986
+P-compactness March : 0.8347146498806017
+P-compactness June : 0.8302149444594422
+P-compactness May : 0.7907419641008855
+P-compactness January : 0.8262051130930181
+P-compactness July : 0.8265168732242346
+P-compactness date : 0.21251233785066073
+Position outlier date : 8/8
+
+P-compactness September : 0.7853833376663968
+P-compactness November : 0.8391789613104907
+P-compactness February : 0.8421784055496234
+P-compactness March : 0.8542880794148232
+P-compactness June : 0.8440862789731479
+P-compactness May : 0.8078732470496753
+P-compactness January : 0.8319622726997494
+P-compactness July : 0.840531104021846
+P-compactness Wednesday : 0.32815822532019395
+Position outlier Wednesday : 8/8
+
+P-compactness September : 0.7527696944881584
+P-compactness November : 0.7979748454726798
+P-compactness February : 0.799273657677232
+P-compactness March : 0.8098712768017488
+P-compactness June : 0.802957850558785
+P-compactness May : 0.7672398125827947
+P-compactness January : 0.7923005371080089
+P-compactness July : 0.7971285922905934
+P-compactness ball : 0.0021928056144421516
+Position outlier ball : 8/8
+
+P-compactness September : 0.775661368284448
+P-compactness November : 0.8231491015661332
+P-compactness February : 0.826604554808459
+P-compactness March : 0.8332074284887762
+P-compactness June : 0.824276973531802
+P-compactness May : 0.7925320923663918
+P-compactness January : 0.8223845593639234
+P-compactness July : 0.8230246850816827
+P-compactness winter : 0.20351730212605718
+Position outlier winter : 8/8
+
+P-compactness September : 0.7729528369335709
+P-compactness November : 0.8242997518596925
+P-compactness February : 0.8226193448972549
+P-compactness March : 0.8318181093242112
+P-compactness June : 0.8239283118521032
+P-compactness May : 0.7907551995977355
+P-compactness January : 0.8150050476489329
+P-compactness July : 0.8238420508177949
+P-compactness birthday : 0.18789719156573706
+Position outlier birthday : 8/8
+
+P-compactness September : 0.7468151256352059
+P-compactness November : 0.7930968141722501
+P-compactness February : 0.7958933763024995
+P-compactness March : 0.803734487529387
+P-compactness June : 0.797246290662472
+P-compactness May : 0.7672492582663053
+P-compactness January : 0.7921955333867269
+P-compactness July : 0.799655641018492
+P-compactness astrology : -0.021436934392220327
+Position outlier astrology : 8/8
+
+
+ -- Apostles_of_Jesus_Christ --
+
+P-compactness Thomas : 0.4967868857739791
+P-compactness John : 0.5436170878718137
+P-compactness Bartholomew : 0.3091875186558423
+P-compactness James : 0.5428178079943341
+P-compactness Matthew : 0.5248300449159703
+P-compactness Peter : 0.5437622804952045
+P-compactness Andrew : 0.4887025106162817
+P-compactness Thaddaeus : 0.17805733368816157
+P-compactness Ambrose : 0.3759176162202331
+Position outlier Ambrose : 6/8
+
+P-compactness Thomas : 0.44378101123229563
+P-compactness John : 0.5071159310262374
+P-compactness Bartholomew : 0.3029805456110418
+P-compactness James : 0.4997801005382366
+P-compactness Matthew : 0.49920956478178685
+P-compactness Peter : 0.5149221221540894
+P-compactness Andrew : 0.44805633730769995
+P-compactness Thaddaeus : 0.18254299261863008
+P-compactness crucifixion : 0.14654475147866364
+Position outlier crucifixion : 8/8
+
+P-compactness Thomas : 0.4501659507504541
+P-compactness John : 0.5155202161824404
+P-compactness Bartholomew : 0.2930747446814182
+P-compactness James : 0.5081309570079774
+P-compactness Matthew : 0.4829347269869385
+P-compactness Peter : 0.5109656731917998
+P-compactness Andrew : 0.45212936127598186
+P-compactness Thaddaeus : 0.17763639973640713
+P-compactness church : 0.13871417602206315
+Position outlier church : 8/8
+
+P-compactness Thomas : 0.4838166664455761
+P-compactness John : 0.5427444098777067
+P-compactness Bartholomew : 0.2979894458792166
+P-compactness James : 0.5457717948615678
+P-compactness Matthew : 0.533177796316027
+P-compactness Peter : 0.5552267668130565
+P-compactness Andrew : 0.5050931056420698
+P-compactness Thaddaeus : 0.18823605034105084
+P-compactness Noah : 0.40021218238491707
+Position outlier Noah : 6/8
+
+P-compactness Thomas : 0.48367916727038984
+P-compactness John : 0.5530094542675303
+P-compactness Bartholomew : 0.2973808202687767
+P-compactness James : 0.5505401232538352
+P-compactness Matthew : 0.5221023398440771
+P-compactness Peter : 0.5495506622886621
+P-compactness Andrew : 0.4989349869890289
+P-compactness Thaddaeus : 0.18979965958042722
+P-compactness Mary : 0.39315335997137313
+Position outlier Mary : 6/8
+
+P-compactness Thomas : 0.4473582697687583
+P-compactness John : 0.493275412081988
+P-compactness Bartholomew : 0.2706276801711071
+P-compactness James : 0.49554567200794153
+P-compactness Matthew : 0.4802285706731751
+P-compactness Peter : 0.49716120231348043
+P-compactness Andrew : 0.46118812469155274
+P-compactness Thaddaeus : 0.1706135467597777
+P-compactness Microsoft : 0.06415462467642676
+Position outlier Microsoft : 8/8
+
+P-compactness Thomas : 0.4569064786153927
+P-compactness John : 0.5158205056098493
+P-compactness Bartholomew : 0.31122997369534333
+P-compactness James : 0.5033969855578769
+P-compactness Matthew : 0.4794173354097135
+P-compactness Peter : 0.5185988388473384
+P-compactness Andrew : 0.4438364696101201
+P-compactness Thaddaeus : 0.18787787955768842
+P-compactness Pope_Benedict_XVI : 0.1652406131119683
+Position outlier Pope_Benedict_XVI : 8/8
+
+P-compactness Thomas : 0.44034501541424154
+P-compactness John : 0.500341316375744
+P-compactness Bartholomew : 0.2598157325524546
+P-compactness James : 0.4961546491503903
+P-compactness Matthew : 0.4683875920962207
+P-compactness Peter : 0.48916703211161167
+P-compactness Andrew : 0.44823431721050105
+P-compactness Thaddaeus : 0.17104453457105662
+P-compactness airplane : 0.021646335690866332
+Position outlier airplane : 8/8
+
+
+ -- Solar_System_planets --
+
+P-compactness Venus : 0.460888624173855
+P-compactness Neptune : 0.40838798247699687
+P-compactness Earth : 0.37753068419873276
+P-compactness Uranus : 0.4195083375797427
+P-compactness Saturn : 0.48443013072496055
+P-compactness Mercury : 0.4058364062288331
+P-compactness Mars : 0.4199858967904605
+P-compactness Jupiter : 0.4720699670240815
+P-compactness astronaut : 0.21728536032745221
+Position outlier astronaut : 8/8
+
+P-compactness Venus : 0.49115664955428073
+P-compactness Neptune : 0.4455507773994261
+P-compactness Earth : 0.38930245961855536
+P-compactness Uranus : 0.46991760084642376
+P-compactness Saturn : 0.5171517640025696
+P-compactness Mercury : 0.417829805621726
+P-compactness Mars : 0.42317862626858055
+P-compactness Jupiter : 0.5098526945092355
+P-compactness Comet_Halley : 0.4325877089505866
+Position outlier Comet_Halley : 5/8
+
+P-compactness Venus : 0.4809310873343787
+P-compactness Neptune : 0.44297819356847207
+P-compactness Earth : 0.39441365237275716
+P-compactness Uranus : 0.44148622757472833
+P-compactness Saturn : 0.5024914623345131
+P-compactness Mercury : 0.4282686803073267
+P-compactness Mars : 0.40568798480565055
+P-compactness Jupiter : 0.49725538235117267
+P-compactness Sun : 0.3621600017787885
+Position outlier Sun : 8/8
+
+P-compactness Venus : 0.4699063845628526
+P-compactness Neptune : 0.4164958313907868
+P-compactness Earth : 0.36648447150284175
+P-compactness Uranus : 0.4439496129549686
+P-compactness Saturn : 0.4836566248819451
+P-compactness Mercury : 0.3979489292205355
+P-compactness Mars : 0.39664212909300184
+P-compactness Jupiter : 0.47374713669387086
+P-compactness eclipse : 0.21747845143059225
+Position outlier eclipse : 8/8
+
+P-compactness Venus : 0.47204669567777047
+P-compactness Neptune : 0.4438063831724917
+P-compactness Earth : 0.3774438965496215
+P-compactness Uranus : 0.45144031377785
+P-compactness Saturn : 0.4999727441508127
+P-compactness Mercury : 0.4164742758019674
+P-compactness Mars : 0.40580829339011165
+P-compactness Jupiter : 0.4944736188147593
+P-compactness Triton : 0.33011355246517404
+Position outlier Triton : 8/8
+
+P-compactness Venus : 0.49787803121932483
+P-compactness Neptune : 0.44186430492247425
+P-compactness Earth : 0.4060151737675057
+P-compactness Uranus : 0.46025007533800044
+P-compactness Saturn : 0.5151815499218914
+P-compactness Mercury : 0.42796024901068197
+P-compactness Mars : 0.4370826271628452
+P-compactness Jupiter : 0.5048633735599799
+P-compactness Moon : 0.4597427160324926
+Position outlier Moon : 4/8
+
+P-compactness Venus : 0.43398717192752356
+P-compactness Neptune : 0.38738746827379517
+P-compactness Earth : 0.35005561579475064
+P-compactness Uranus : 0.40901236206076086
+P-compactness Saturn : 0.4646611505944309
+P-compactness Mercury : 0.37391735068621956
+P-compactness Mars : 0.38205887914110614
+P-compactness Jupiter : 0.458432514114474
+P-compactness lunch : 0.028159843722850113
+Position outlier lunch : 8/8
+
+P-compactness Venus : 0.4494432147432015
+P-compactness Neptune : 0.397717157526228
+P-compactness Earth : 0.35424908952336526
+P-compactness Uranus : 0.42028029452402604
+P-compactness Saturn : 0.475029390495763
+P-compactness Mercury : 0.38677676709606723
+P-compactness Mars : 0.38724274860150154
+P-compactness Jupiter : 0.46369615760702115
+P-compactness window : 0.10308215124696295
+Position outlier window : 8/8
+
+
+ -- Big_cats --
+
+P-compactness wildcat : 0.11935926788459825
+P-compactness lion : 0.4493082599111572
+P-compactness tiger : 0.45470672292274855
+P-compactness jaguar : 0.4207321363307664
+P-compactness cheetah : 0.42074226486173527
+P-compactness leopard : 0.4060439072398236
+P-compactness cougar : 0.4029639589360331
+P-compactness lynx : 0.37725452631608514
+P-compactness jungle : 0.2818922829908746
+Position outlier jungle : 7/8
+
+P-compactness wildcat : 0.11366883513588733
+P-compactness lion : 0.45924482630237495
+P-compactness tiger : 0.46953626012514454
+P-compactness jaguar : 0.412632754745892
+P-compactness cheetah : 0.4268537607117735
+P-compactness leopard : 0.41061899692401754
+P-compactness cougar : 0.40811703424054396
+P-compactness lynx : 0.38305707011245943
+P-compactness shark : 0.3145107768860204
+Position outlier shark : 7/8
+
+P-compactness wildcat : 0.11235402448321091
+P-compactness lion : 0.4222011585701177
+P-compactness tiger : 0.41741344582481416
+P-compactness jaguar : 0.3813620979308875
+P-compactness cheetah : 0.3876133509191475
+P-compactness leopard : 0.3801378466526595
+P-compactness cougar : 0.3741814354479472
+P-compactness lynx : 0.3432963733637082
+P-compactness day : 0.049340971780419865
+Position outlier day : 8/8
+
+P-compactness wildcat : 0.12011348341767844
+P-compactness lion : 0.4236244280057
+P-compactness tiger : 0.4207049567501601
+P-compactness jaguar : 0.3873490803878258
+P-compactness cheetah : 0.4037810267032911
+P-compactness leopard : 0.38393958021874686
+P-compactness cougar : 0.39028557645014006
+P-compactness lynx : 0.3610747888891981
+P-compactness car : 0.12165415941066747
+Position outlier car : 7/8
+
+P-compactness wildcat : 0.11538449408621379
+P-compactness lion : 0.43843857038786127
+P-compactness tiger : 0.43436601360065025
+P-compactness jaguar : 0.4013514115190575
+P-compactness cheetah : 0.41976143223250695
+P-compactness leopard : 0.3915203550359475
+P-compactness cougar : 0.3952714982508896
+P-compactness lynx : 0.3813408611904651
+P-compactness mouse : 0.20821587489151913
+Position outlier mouse : 7/8
+
+P-compactness wildcat : 0.11217402815337088
+P-compactness lion : 0.4585543720908728
+P-compactness tiger : 0.46256889995094724
+P-compactness jaguar : 0.42317343623996573
+P-compactness cheetah : 0.4380061978063226
+P-compactness leopard : 0.4130184822014726
+P-compactness cougar : 0.416326684716304
+P-compactness lynx : 0.3803190817373533
+P-compactness dolphin : 0.3349224214845363
+Position outlier dolphin : 7/8
+
+P-compactness wildcat : 0.116647128979853
+P-compactness lion : 0.43559514564890545
+P-compactness tiger : 0.44371293664843353
+P-compactness jaguar : 0.4069539222131982
+P-compactness cheetah : 0.42336939659910056
+P-compactness leopard : 0.4061641058804146
+P-compactness cougar : 0.4066921500133939
+P-compactness lynx : 0.38061930663651106
+P-compactness savanna : 0.2505353312077374
+Position outlier savanna : 7/8
+
+P-compactness wildcat : 0.12997370589542365
+P-compactness lion : 0.464417310878674
+P-compactness tiger : 0.460009895430519
+P-compactness jaguar : 0.42098410480172405
+P-compactness cheetah : 0.4354250097886341
+P-compactness leopard : 0.41071538358789783
+P-compactness cougar : 0.41951648391019
+P-compactness lynx : 0.3925129639280706
+P-compactness dog : 0.3643360968090604
+Position outlier dog : 7/8
+
+
+ -- SouthAmerica --
+
+P-compactness Chile : 0.6094735435849248
+P-compactness Colombia : 0.5838932586274753
+P-compactness Peru : 0.6177523497908368
+P-compactness Venezuela : 0.5947308970729747
+P-compactness Ecuador : 0.622896067608389
+P-compactness Bolivia : 0.624608717236443
+P-compactness Brazil : 0.6060594508507314
+P-compactness Argentina : 0.6039670961340654
+P-compactness Bogotá : 0.1773472649896115
+Position outlier Bogotá : 8/8
+
+P-compactness Chile : 0.5959965716596762
+P-compactness Colombia : 0.5691457789097183
+P-compactness Peru : 0.6026390083431372
+P-compactness Venezuela : 0.5883515788053303
+P-compactness Ecuador : 0.6124323151273496
+P-compactness Bolivia : 0.6171307021328404
+P-compactness Brazil : 0.5951325238958911
+P-compactness Argentina : 0.5942291953136378
+P-compactness town : 0.08902355827135229
+Position outlier town : 8/8
+
+P-compactness Chile : 0.6345622454304771
+P-compactness Colombia : 0.5993661041219513
+P-compactness Peru : 0.6303439887515228
+P-compactness Venezuela : 0.6214073750723154
+P-compactness Ecuador : 0.6362934120285617
+P-compactness Bolivia : 0.6326938826002309
+P-compactness Brazil : 0.6317306356667503
+P-compactness Argentina : 0.6312374368678121
+P-compactness Madrid : 0.33160096462339267
+Position outlier Madrid : 8/8
+
+P-compactness Chile : 0.6160167826076492
+P-compactness Colombia : 0.5780544340228704
+P-compactness Peru : 0.6155757012236551
+P-compactness Venezuela : 0.5985370493943867
+P-compactness Ecuador : 0.6176874458085977
+P-compactness Bolivia : 0.613048610741329
+P-compactness Brazil : 0.6121371128256258
+P-compactness Argentina : 0.6146511685882534
+P-compactness New_York : 0.17967418929613854
+Position outlier New_York : 8/8
+
+P-compactness Chile : 0.6001757436287991
+P-compactness Colombia : 0.5546419278045454
+P-compactness Peru : 0.591278465565217
+P-compactness Venezuela : 0.5824083592840691
+P-compactness Ecuador : 0.6014947649261543
+P-compactness Bolivia : 0.6069176355337136
+P-compactness Brazil : 0.588208906228835
+P-compactness Argentina : 0.5875569964977304
+P-compactness telephone : 0.026648683552834986
+Position outlier telephone : 8/8
+
+P-compactness Chile : 0.6366843602370633
+P-compactness Colombia : 0.6107902370669169
+P-compactness Peru : 0.637229184505107
+P-compactness Venezuela : 0.6247836067015012
+P-compactness Ecuador : 0.6459289315901035
+P-compactness Bolivia : 0.6481083512468082
+P-compactness Brazil : 0.6396635676229842
+P-compactness Argentina : 0.6360325778262191
+P-compactness Rio_de_Janeiro : 0.39318670088047486
+Position outlier Rio_de_Janeiro : 8/8
+
+P-compactness Chile : 0.5998401511314384
+P-compactness Colombia : 0.5695457448919202
+P-compactness Peru : 0.5985976568511342
+P-compactness Venezuela : 0.5880264002249763
+P-compactness Ecuador : 0.6118297558663767
+P-compactness Bolivia : 0.6101192430718443
+P-compactness Brazil : 0.5993743131387897
+P-compactness Argentina : 0.5927470910253695
+P-compactness bottle : 0.08404624028562035
+Position outlier bottle : 8/8
+
+P-compactness Chile : 0.6059026184517147
+P-compactness Colombia : 0.5713224118030059
+P-compactness Peru : 0.5942919308088852
+P-compactness Venezuela : 0.5977568865823164
+P-compactness Ecuador : 0.6102279217327391
+P-compactness Bolivia : 0.6158102408981292
+P-compactness Brazil : 0.6068095444044458
+P-compactness Argentina : 0.6076081940682972
+P-compactness government : 0.1236956328333047
+Position outlier government : 8/8
+
+
+ -- Information_Technology_companies --
+
+P-compactness Amazon : 0.20292673616272883
+P-compactness Google : 0.33391698882319554
+P-compactness Sony : 0.41058077659698583
+P-compactness Apple : 0.44885356060927145
+P-compactness Microsoft : 0.41184940352435995
+P-compactness Foxconn : 0.34760987166632834
+P-compactness HP : 0.3860429109914361
+P-compactness IBM : 0.4030622837192797
+P-compactness Boeing : 0.27945134212524125
+Position outlier Boeing : 7/8
+
+P-compactness Amazon : 0.20128185823080003
+P-compactness Google : 0.33529943823774244
+P-compactness Sony : 0.4115087518273381
+P-compactness Apple : 0.44324254318345235
+P-compactness Microsoft : 0.3919721557713521
+P-compactness Foxconn : 0.3433320255352523
+P-compactness HP : 0.37222245980717533
+P-compactness IBM : 0.38725456823354526
+P-compactness Opel : 0.2207226108583134
+Position outlier Opel : 7/8
+
+P-compactness Amazon : 0.21316228562907835
+P-compactness Google : 0.34786150956713197
+P-compactness Sony : 0.41306031473670746
+P-compactness Apple : 0.46302832882722933
+P-compactness Microsoft : 0.4205279865439584
+P-compactness Foxconn : 0.3480676412563296
+P-compactness HP : 0.37473587674075165
+P-compactness IBM : 0.3988468197075966
+P-compactness software : 0.3138995730404388
+Position outlier software : 7/8
+
+P-compactness Amazon : 0.20926964054028438
+P-compactness Google : 0.32491941144884817
+P-compactness Sony : 0.41307957243512833
+P-compactness Apple : 0.45071188926288946
+P-compactness Microsoft : 0.3943528584834669
+P-compactness Foxconn : 0.3508165140343807
+P-compactness HP : 0.3808557766076444
+P-compactness IBM : 0.3871012759922831
+P-compactness Adidas : 0.24571574883658093
+Position outlier Adidas : 7/8
+
+P-compactness Amazon : 0.20507325960876546
+P-compactness Google : 0.3099098349110368
+P-compactness Sony : 0.3691719803694621
+P-compactness Apple : 0.4236248650846801
+P-compactness Microsoft : 0.37122109462669023
+P-compactness Foxconn : 0.32326299650855855
+P-compactness HP : 0.3516499188051184
+P-compactness IBM : 0.36574334757800114
+P-compactness plant : 0.054266107523968266
+Position outlier plant : 8/8
+
+P-compactness Amazon : 0.19042529355803864
+P-compactness Google : 0.30141643050009276
+P-compactness Sony : 0.3786182309725412
+P-compactness Apple : 0.4096453637617099
+P-compactness Microsoft : 0.36931772803334484
+P-compactness Foxconn : 0.3139590852754693
+P-compactness HP : 0.3456980669163883
+P-compactness IBM : 0.3547380241996314
+P-compactness chair : -0.0015729667511281786
+Position outlier chair : 8/8
+
+P-compactness Amazon : 0.2039142766653297
+P-compactness Google : 0.33027743857055475
+P-compactness Sony : 0.4019438111415228
+P-compactness Apple : 0.45329370275144004
+P-compactness Microsoft : 0.40607480271780894
+P-compactness Foxconn : 0.3367180279695025
+P-compactness HP : 0.37420846086942205
+P-compactness IBM : 0.40191224947979093
+P-compactness computer : 0.24295158019702728
+Position outlier computer : 7/8
+
+P-compactness Amazon : 0.20159449044541344
+P-compactness Google : 0.3162942493128044
+P-compactness Sony : 0.38546233245225653
+P-compactness Apple : 0.4192320921361824
+P-compactness Microsoft : 0.38518926712744245
+P-compactness Foxconn : 0.3259032082384649
+P-compactness HP : 0.3570601023888212
+P-compactness IBM : 0.36758170394421774
+P-compactness Nestlé : 0.09292625607725856
+Position outlier Nestlé : 8/8
+
