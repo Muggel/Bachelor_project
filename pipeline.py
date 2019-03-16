@@ -65,13 +65,12 @@ def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_con
         -train dep.contexts \
         -wvocab wv \
         -cvocab cv \
-        -output vectors.txt \
+        -output word2vecf_vectors.txt \
         -size 300 \
         -negative 1 \
         -threads 12 \
         -dumpcv dim200context-vecs".format(path_to_word2vecf_folder))
 
- 
 def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, outputfile, cbow_or_skipgram, window, negative, hs):
     """Trains the word embedding vectors with word2vec.
     
@@ -104,7 +103,7 @@ def run_outlier_detection():
     """Runs the outlier detection script from the outlier detection paper
     on the word embedding vectors in the file vectors.txt"""
     
-    so.main('Outlier_detection/8-8-8_Dataset/', 'vectors.txt')
+    so.main('Outlier_detection/8-8-8_Dataset/', 'vectors_cbow.txt')
 
 class Args:
     pass
@@ -130,11 +129,11 @@ This might take some time [Y/n]:'.format(values)).lower()
             return
     
         if values == 'cbow':
-            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", "vectors_cbow.txt", 0, 5, 0, 1) 
+            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "tokenized_data_set.txt", "vectors_cbow.txt", 0, 5, 0, 1) 
         elif values == 'skipgram':
             train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", "vectors_skipgram.txt", 1, 10, 15, 0) 
         elif values in ['word2vecf', 'w2vf']: 
-            train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/Converted_combined_english_text.conllu")
+            train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "conll_data_set.conllu") #"datasets/Converted_combined_english_text.conllu"
 
 
 class Task(argparse.Action):

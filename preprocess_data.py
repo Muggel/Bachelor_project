@@ -1,5 +1,6 @@
 # Preprocess data for word2vec and word2vecf
 import subprocess
+import argparse
 import os
 from nltk.tokenize import word_tokenize, sent_tokenize
 
@@ -47,13 +48,17 @@ def make_conll_and_write_to_conllresult(text, threshhold):
 def create_conll_file_and_tokenized_file(source):
     with open(source, 'r') as input:
         inp = input.read()
-        #make_conll_and_write_to_conllresult(inp, )
+        make_conll_and_write_to_conllresult(inp, 3000000)
         tokenize_and_write_to_tokenresult(inp)
         
 
 # split alle filer op i mindre filer på størrelsen okring 3mb
-def process_all_files_in_folder(path_to_folder):
-    pass
+def process_all_files_in_directory(directory):
+    for filename in os.listdir(directory):
+        if filename.endswith(".txt"): 
+            path_to_file = os.path.join(directory, filename)
+            create_conll_file_and_tokenized_file(path_to_file)        
 
 if __name__ == "__main__":
-    create_conll_file_and_tokenized_file("test_file.txt")
+    process_all_files_in_directory("/Users/jesperbrink/Desktop/test_folder")
+    
