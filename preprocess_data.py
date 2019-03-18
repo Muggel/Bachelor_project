@@ -2,16 +2,25 @@
 import subprocess
 import argparse
 import os
+import tqdm
 from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.parse.corenlp import CoreNLPParser
+from nltk.parse.corenlp import CoreNLPDependencyParser
 
-def tokenize_and_write_to_tokenresult(text):
-    tokens = word_tokenize(text)
-    with open('tokenized_data_set.txt', 'a') as dest:
-        for token in tokens:
-            if token == '.':
-                dest.write(token.lower() + '\n')   
-            else:
-                dest.write(token.lower() + ' ')
+
+def tokenize_and_write_to_tokenresult(text, dest):
+    #https://github.com/nltk/nltk/wiki/Stanford-CoreNLP-API-in-NLTK
+    url='http://localhost:9000'
+    dep_parser = CoreNLPDependencyParser(url=url)
+    tokens = CoreNLPParser(url)
+    
+    res = tokens.tokenize(text)
+
+    for token in res:
+        if token == '.':
+            dest.write(token.lower() + '\n')   
+        else:
+            dest.write(token.lower() + ' ')
     
 
 def append_to_conll(part):
@@ -21,7 +30,7 @@ def append_to_conll(part):
             temp_file.write(sentence + "\n")
     
     # call java
-    subprocess.run("java -Xmx12g -cp 'stanford-corenlp/*' edu.stanford.nlp.pipeline.StanfordCoreNLP -annotators tokenize,ssplit,pos,depparse -file temp_file  -outputFormat conllu", shell=True)
+    subprocess.run("java -Xmx12g -cp 'stanford-corenlp/*' edu.stanford.nlp.pipeline.StanfordCoreNLP -annotators tokenize,ssplit,pos,depparse -threads 8 -file temp_file  -outputFormat conllu", shell=True)
     # write result from tmp_file into conllu_result
 
     with open('temp_file.conllu', 'r') as from_file:
@@ -43,22 +52,29 @@ def make_conll_and_write_to_conllresult(text, threshhold):
         temp_file_len += len(sentence)
     
     append_to_conll(temp_arr)
-        
+         
 
-def create_conll_file_and_tokenized_file(source):
+def create_conll_file_and_tokenized_file(source, token_dest):
     with open(source, 'r') as input:
-        inp = input.read()
-        make_conll_and_write_to_conllresult(inp, 3000000)
-        tokenize_and_write_to_tokenresult(inp)
+        while True:
+            inp = input.readline()
+            if inp == '':
+                break
+            #make_conll_and_write_to_conllresult(inp, 6000000)
+            tokenize_and_write_to_tokenresult(inp, token_dest)
         
 
 # split alle filer op i mindre filer på størrelsen okring 3mb
 def process_all_files_in_directory(directory):
-    for filename in os.listdir(directory):
-        if filename.endswith(".txt"): 
-            path_to_file = os.path.join(directory, filename)
-            create_conll_file_and_tokenized_file(path_to_file)        
+    with open('tokenized_data_set.txt', 'w') as token_dest:
+        counter = 1
+        for filename in tqdm(os.listdir(directory)):
+            if filename.endswith(".txt"): 
+                print('Processing file {}, filename: {}'.format(counter, filename))
+                counter += 1
+                path_to_file = os.path.join(directory, filename)
+                create_conll_file_and_tokenized_file(path_to_file, token_dest)        
 
 if __name__ == "__main__":
-    process_all_files_in_directory("/Users/jesperbrink/Desktop/test_folder")
+    process_all_files_in_directory("../test_folder")
     
