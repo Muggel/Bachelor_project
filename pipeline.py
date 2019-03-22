@@ -1,5 +1,7 @@
 import os
 import argparse
+import subprocess 
+import itertools
 from Outlier_detection import scorer_outlierdetection as so
 from collections import OrderedDict
 
@@ -99,64 +101,44 @@ def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, outp
         -sample 1e-3 \
         -threads 12".format(path_to_word2vecf_folder, path_to_dataset, outputfile, cbow_or_skipgram, window, negative, hs))    
 
-def run_outlier_detection():
+def run_outlier_detection(vectors):
     """Runs the outlier detection script from the outlier detection paper
     on the word embedding vectors in the file vectors.txt"""
     
-    so.main('Outlier_detection/8-8-8_Dataset/', 'vectors_cbow.txt')
+    so.main('Outlier_detection/8-8-8_Dataset/', vectors)
 
 class Args:
     pass
-
-class Vectorize(argparse.Action):
-    def __init__(self, choices, dest, option_strings, nargs=None, **kwargs):
-        if nargs is not None:
-            raise ValueError('nargs not allowed')
-        super(Vectorize, self).__init__(option_strings, dest, **kwargs)
-
-    
-    def getConfirmation(self, values):
-        answer = input('Do you want to train the Word Embeddings with {} \n\
-This might take some time [Y/n]:'.format(values)).lower()
-        while answer not in ['y', 'n']:
-            answer = input('[Y/n]: ')
-        
-        return answer == 'y'
-    
-    
-    def __call__(self, parser, namespace, values, option_string=None):
-        if not self.getConfirmation(values):
-            return
-    
-        if values == 'cbow':
-            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "tokenized_data_set.txt", "vectors_cbow.txt", 0, 5, 0, 1) 
-        elif values == 'skipgram':
-            train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", "vectors_skipgram.txt", 1, 10, 15, 0) 
-        elif values in ['word2vecf', 'w2vf']: 
-            train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "conll_data_set.conllu") #"datasets/Converted_combined_english_text.conllu"
-
-
-class Task(argparse.Action):
-    def __init__(self, choices, dest, option_strings, nargs=None, **kwargs):
-        if nargs is not None:
-            raise ValueError('nargs not allowed')
-        super(Task, self).__init__(option_strings, dest, **kwargs)
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        print('Running task: {}'.format(values))
-        if values in ['outlier', 'o', 'task1', '1']:
-            run_outlier_detection()
-
 
 if __name__ == "__main__":
     args = Args()
     parser = argparse.ArgumentParser()
     parser.add_argument('-vectorize', '-v', 
-                        choices=['word2vec', 'w2v', 'word2vecf', 'w2vf'], 
-                        help='If you want to vectorize a corpus used \"-v=\" \
-                              followed by the method you want to use.',
-                        action=Vectorize)
-    parser.add_argument('-task', '-t',
-                        choices=['outlier', 'o', 'task1', '1'],
-                        action=Task)
+                        choices=['skipgram', 'cbow', 'w2vf'],
+                        nargs='+')
+    parser.add_argument('-tasks', '-t',
+                        choices=['outlier'],
+                        nargs='+')
+    parser.add_argument('-train',
+                        action='store_true')
     parser.parse_args(namespace=args)
+    args = parser.parse_args()
+
+    vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", "vectors_skipgram.txt", 1, 10, 15, 0),
+                     'cbow': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "tokenized_data_set.txt", "vectors_cbow.txt", 0, 5, 0, 1), 
+                     'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "conll_data_set.conllu")}
+
+    task_func_dict = {'outlier': run_outlier_detection}
+
+    vector_file_dict = {'skipgram': "vectors_skipgram.txt",
+                        'cbow': "vectors_cbow.txt",
+                        'w2vf': "conll_data_set.conllu"}
+
+    if args.train: [vec_func_dict[x]() for x in set(args.vectorize)]
+
+    if args.tasks:
+        task_set = {task_func_dict[x] for x in args.tasks}
+
+        for task, vectors in itertools.product(task_set, args.vectorize):
+            task(vector_file_dict[vectors])
+        
