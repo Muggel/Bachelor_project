@@ -140,8 +140,9 @@ if __name__ == "__main__":
 
     if args.train: [vec_func_dict[x]() for x in set(args.vectorize)]
 
-    task_set = {task_func_dict[x] for x in args.tasks}
+    if args.tasks:
+        task_set = {task_func_dict[x] for x in args.tasks}
 
-    for task, vectors in itertools.product(task_set, args.vectorize):
-        task(vector_file_dict[vectors])
+        for task, vectors in itertools.product(task_set, args.vectorize):
+            task(vector_file_dict[vectors])
         
