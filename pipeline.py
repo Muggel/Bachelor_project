@@ -115,17 +115,21 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('-vectorize', '-v', 
                         choices=['skipgram', 'cbow', 'w2vf'],
-                        nargs='+')
+                        help='The vectorizing methods used in the given task. It is required to give at least one',
+                        nargs='+',
+                        required=True)
     parser.add_argument('-tasks', '-t',
                         choices=['outlier'],
+                        help='The task that is to be run with the vectorizing methods.',
                         nargs='+')
     parser.add_argument('-train',
-                        action='store_true')
+                        action='store_true',
+                        help='If set, the vectorze methods will train again.')
     parser.parse_args(namespace=args)
     args = parser.parse_args()
 
-    vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", "vectors_skipgram.txt", 1, 10, 15, 0),
-                     'cbow': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "tokenized_data_set.txt", "vectors_cbow.txt", 0, 5, 0, 1), 
+    vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", "vectors_skipgram.txt", 0, 10, 15, 0),
+                     'cbow': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "tokenized_data_set.txt", "vectors_cbow.txt", 1, 5, 0, 1), 
                      'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "conll_data_set.conllu")}
 
     task_func_dict = {'outlier': run_outlier_detection}
