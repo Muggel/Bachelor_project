@@ -31,7 +31,12 @@ public class DepParse {
         BufferedReader reader;
         FileOutputStream fos;
         CoNLLUOutputter outputter = new CoNLLUOutputter();
+        int counter = 0;
 
+
+        //Make dir
+        File dir = new File("conllu_files");
+        dir.mkdir();
 
         try {
             // Go through each text file in the folder
@@ -41,7 +46,7 @@ public class DepParse {
                 }
 
                 reader = new BufferedReader(new FileReader(file));
-                fos = new FileOutputStream(new File("Conllu_data.conllu"));
+                fos = new FileOutputStream(new File("conllu_files/conllu_data"+counter+".conllu"));
 
                 String line = reader.readLine();
 
@@ -58,6 +63,7 @@ public class DepParse {
                 reader.close();
                 fos.flush();
                 fos.close();
+                counter++;
             }
         } catch (IOException e) {
             e.printStackTrace();
