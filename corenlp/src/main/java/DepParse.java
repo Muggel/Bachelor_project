@@ -1,7 +1,5 @@
-import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.CoNLLUOutputter;
-import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import me.tongfei.progressbar.ProgressBar;
 import org.apache.log4j.BasicConfigurator;
@@ -33,7 +31,6 @@ public class DepParse {
         CoNLLUOutputter outputter = new CoNLLUOutputter();
         int counter = 0;
 
-
         //Make dir
         File dir = new File("conllu_files");
         dir.mkdir();
@@ -46,7 +43,7 @@ public class DepParse {
                 }
 
                 reader = new BufferedReader(new FileReader(file));
-                fos = new FileOutputStream(new File("conllu_files/conllu_data"+counter+".conllu"));
+                fos = new FileOutputStream(new File("conllu_files/"+file.getName()+".conllu"));
 
                 String line = reader.readLine();
 
