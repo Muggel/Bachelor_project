@@ -29,7 +29,6 @@ public class DepParse {
         BufferedReader reader;
         FileOutputStream fos;
         CoNLLUOutputter outputter = new CoNLLUOutputter();
-        int counter = 0;
 
         //Make dir
         File dir = new File("conllu_files");
@@ -60,7 +59,6 @@ public class DepParse {
                 reader.close();
                 fos.flush();
                 fos.close();
-                counter++;
             }
         } catch (IOException e) {
             e.printStackTrace();
