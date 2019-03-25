@@ -1,34 +1,35 @@
 import edu.stanford.nlp.pipeline.Annotation;
 import edu.stanford.nlp.pipeline.CoNLLUOutputter;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import me.tongfei.progressbar.ProgressBar;
 import org.apache.log4j.BasicConfigurator;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Date;
 import java.util.Properties;
 
 public class DepParse {
 
     public static void main(String[] args) {
-        long startTime = System.currentTimeMillis();
+        Date date = new Date();
+        System.out.println("Started parsing: "+date.toString());
+
         BasicConfigurator.configure();
 
         // creates a StanfordCoreNLP object, with POS tagging, tokenization and ssplit
         Properties props = new Properties();
         props.setProperty("annotators", "tokenize, ssplit, pos, depparse");
-        props.setProperty("threads", "8");
-        props.setProperty("depparse.nthreads", "8");
+        props.setProperty("threads", args[0]);
+        props.setProperty("depparse.nthreads", args[0]);
         props.setProperty("outputFormat", "conllu");
         StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
 
-        File[] folder = new File(args[0]).listFiles();
+        File[] folder = new File(args[1]).listFiles();
         assert folder != null;
-        List<File> folderList = Arrays.asList(folder);
         BufferedReader reader;
         FileOutputStream fos;
         CoNLLUOutputter outputter = new CoNLLUOutputter();
+
+
 
         //Make dir
         File dir = new File("conllu_files");
@@ -36,11 +37,11 @@ public class DepParse {
 
         try {
             // Go through each text file in the folder
-            for (File file : ProgressBar.wrap(folderList, "Dependency Parsing")) {
+            for (File file : folder) {
                 if (!file.getName().endsWith("txt")) {
                     continue;
                 }
-
+                System.out.println("Reading file: " + file.getName());
                 reader = new BufferedReader(new FileReader(file));
                 fos = new FileOutputStream(new File("conllu_files/"+file.getName()+".conllu"));
 
@@ -63,11 +64,6 @@ public class DepParse {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-        long endTime = System.currentTimeMillis();
-
-        System.out.println("Running time: " + (endTime - startTime)/1000 + " seconds");
     }
 
 }
