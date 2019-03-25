@@ -2,12 +2,18 @@
 
 ### Author: Jose Camacho Collados
 
+
+### Changes made:
 # We have taken the original scorer_outlierdetection.py and made some changes:
-# - Instead of setting the outlier position to 8/8 by default if none of the vectors is known,
+# - Instead of setting the outlier position to 8/8 by default if the outlier vector isn't known,
 #   we set the position to 0/8. This way, your score get punished by not knowing a vector
 #   instead of gaining from it.
 # - Used the package 'black' to format the code according to PEP8.
 # - Used 2to3 to convert the code (which was python2) into python3 code.
+# - In the computation of accuracy_cluster, we changed what we divide with
+#   from count_total_outliers to len(cluster.outliers). We did this because,
+#   count_total_outliers is growing for each new cluster (8, 16, 24, ...), but we
+#   only want to divide by the size of the cluster (8).
 
 import os
 import fileinput
@@ -145,21 +151,22 @@ def getting_vectors(path_vectors, set_words):
     print("Loading word vectors...")
     dimensions = -1
     vectors = {}
-    vectors_file = fileinput.FileInput(path_vectors)
-    for line in vectors_file:
-        word = line.split(" ", 1)[
-            0
-        ]  # removed .decode('utf-8') when changing to python3
-        if word in set_words:
-            linesplit = line.strip().split(" ")
-            if dimensions != len(linesplit) - 1:
-                if dimensions == -1:
-                    dimensions = len(linesplit) - 1
-                else:
-                    print("WARNING! One line with a different number of dimensions")
-            vectors[word] = []
-            for i in range(dimensions):
-                vectors[word].append(float(linesplit[i + 1]))
+    # vectors_file = fileinput.FileInput(path_vectors)
+    with open(path_vectors, "r", encoding="utf-8", errors="ignore") as vectors_file:
+        for line in vectors_file:
+            word = line.split(" ", 1)[
+                0
+            ]  # removed .decode('utf-8') when changing to python3
+            if word in set_words:
+                linesplit = line.strip().split(" ")
+                if dimensions != len(linesplit) - 1:
+                    if dimensions == -1:
+                        dimensions = len(linesplit) - 1
+                    else:
+                        print("WARNING! One line with a different number of dimensions")
+                vectors[word] = []
+                for i in range(dimensions):
+                    vectors[word].append(float(linesplit[i + 1]))
     print(("Number of vector dimensions: " + str(dimensions)))
     for word in set_words:
         if word not in vectors:
@@ -193,6 +200,11 @@ def main(path_dataset, path_vectors):
         sum_positions_cluster = 0
         count_total_outliers += len(cluster.outliers)
         for outlier in cluster.outliers:
+            # This makes sure that the score doesn't get better, if we don't know the vector for the outlier.
+            if module(input_vectors[outlier]) == 0.0:
+                print("No vector found for the outlier: ", outlier)
+                continue
+
             comp_score_outlier = 0.0
             dict_compactness.clear()
             for element_cluster_1 in cluster.elements:
@@ -236,22 +248,14 @@ def main(path_dataset, path_vectors):
 
             # Runs through the sorted list of tuples to find the position
             # of the outlier.
-            print("Outlier:", outlier)
             position_of_outlier = 0
             for position, element_score in enumerate(sorted_list_compactness):
-                print("Element score:", element_score)
                 element = element_score[0]
-                # We have added the "element > 0.0" to the if statement.
-                # This makes sure that it doesn't get a better score than it should have.
-                # We can do this because: if outlier score is 0, then this is the worst
-                # outcome and we want the position to be 0. Which is the same
-                # as not calling the: sum_positions_cluster += position
-                if element == outlier and element_score[1] > 0.0:
+                if element == outlier:
                     sum_positions_cluster += position
                     position_of_outlier = position
                     # if position==number_of_elements then we know we classified it correctly
                     if position == len(cluster.elements):
-                        print("succes:", element)
                         num_outliers_detected_cluster += 1
                     break
             print()
@@ -269,12 +273,13 @@ def main(path_dataset, path_vectors):
         sum_positions_percentage += (sum_positions_cluster * 1.0) / len(
             cluster.elements
         )
+
         score_opp_cluster = (
             ((sum_positions_cluster * 1.0) / len(cluster.elements))
             / len(cluster.outliers)
         ) * 100
         accuracy_cluster = (
-            (num_outliers_detected_cluster * 1.0) / count_total_outliers
+            (num_outliers_detected_cluster * 1.0) / len(cluster.outliers)
         ) * 100.0
 
         results_by_cluster_string += "\nAverage outlier position in this topic: " + str(
