@@ -3,6 +3,7 @@ import argparse
 import subprocess 
 import itertools
 from Outlier_detection import scorer_outlierdetection as so
+#from Outlier_detection import scorer_outlierdetection_our_version as so
 from collections import OrderedDict
 
 # convert files with: cat PATH_TO_CONLLU_FILE | perl conllu_to_conllx.pl  > PATH_TO_WHERE_CONVERTED_FILE_IS_SAVED
@@ -101,11 +102,11 @@ def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, outp
         -sample 1e-3 \
         -threads 12".format(path_to_word2vecf_folder, path_to_dataset, outputfile, cbow_or_skipgram, window, negative, hs))    
 
-def run_outlier_detection(vectors):
+def run_outlier_detection(path_to_dataset, vectors):
     """Runs the outlier detection script from the outlier detection paper
     on the word embedding vectors in the file vectors.txt"""
     
-    so.main('Outlier_detection/8-8-8_Dataset/', vectors)
+    so.main(path_to_dataset, vectors)
 
 class Args:
     pass
@@ -119,23 +120,25 @@ if __name__ == "__main__":
                         nargs='+',
                         required=True)
     parser.add_argument('-tasks', '-t',
-                        choices=['outlier'],
+                        choices=['semant', 'syntax'],
                         help='The task that is to be run with the vectorizing methods.',
                         nargs='+')
     parser.add_argument('-train',
                         action='store_true',
                         help='If set, the vectorze methods will train again.')
     parser.parse_args(namespace=args)
+    
     args = parser.parse_args()
 
-    vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "datasets/combined_English_text.txt", "vectors_skipgram.txt", 0, 10, 15, 0),
-                     'cbow': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "tokenized_data_set.txt", "vectors_cbow.txt", 1, 5, 0, 1), 
-                     'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "conll_data_set.conllu")}
+    vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "/Users/jesperbrink/Downloads/tokenized_data_set.txt", "vectors_skipgram.txt", 0, 10, 15, 0),
+                     'cbow': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "/Users/jesperbrink/Downloads/tokenized_dataset.txt", "vectors_cbow.txt", 1, 5, 0, 1),
+                     'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "/Users/jesperbrink/Documents/bachelor_project/code/stanford-corenlp/short_file.txt.conllu")} #conll_data_set.conllu
 
-    task_func_dict = {'outlier': run_outlier_detection}
+    task_func_dict = {'semant': lambda x: run_outlier_detection('Outlier_detection/8-8-8_Dataset/', x),
+                      'syntax': lambda x: run_outlier_detection('Outlier_detection/8-8-8_syntax_Dataset/', x)}
 
-    vector_file_dict = {'skipgram': "vectors_skipgram.txt",
-                        'cbow': "vectors_cbow.txt",
+    vector_file_dict = {'skipgram': "/Users/jesperbrink/Downloads/vectors_skipgram.txt",
+                        'cbow': "vectors_cbow5.txt",
                         'w2vf': "conll_data_set.conllu"}
 
     if args.train: [vec_func_dict[x]() for x in set(args.vectorize)]
@@ -145,4 +148,3 @@ if __name__ == "__main__":
 
         for task, vectors in itertools.product(task_set, args.vectorize):
             task(vector_file_dict[vectors])
-        
