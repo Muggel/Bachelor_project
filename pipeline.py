@@ -126,13 +126,19 @@ if __name__ == "__main__":
     parser.add_argument('-train',
                         action='store_true',
                         help='If set, the vectorze methods will train again.')
+    parser.add_argument('-tokenized',
+                        default='tokenized_dataset.txt',
+                        help='Path to the tokenized dataset. Default is ./tokenized_dataset.txt.')
+    parser.add_argument('-parsed',
+                        default='parsed_dataset.conllu',
+                        help='Path to the parsed dataset. Default is ./parsed_dataset.conllu.')
     parser.parse_args(namespace=args)
     
     args = parser.parse_args()
 
-    vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "/Users/jesperbrink/Downloads/tokenized_data_set.txt", "vectors_skipgram.txt", 0, 10, 15, 0),
-                     'cbow': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", "/Users/jesperbrink/Downloads/tokenized_dataset.txt", "vectors_cbow.txt", 1, 5, 0, 1),
-                     'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", "/Users/jesperbrink/Documents/bachelor_project/code/stanford-corenlp/short_file.txt.conllu")} #conll_data_set.conllu
+    vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", args.tokenized, "vectors_skipgram.txt", 0, 10, 15, 0),
+                     'cbow': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", args.tokenized, "vectors_cbow.txt", 1, 5, 0, 1),
+                     'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", args.parsed)} #conll_data_set.conllu
 
     task_func_dict = {'semant': lambda x: run_outlier_detection('Outlier_detection/8-8-8_Dataset/', x),
                       'syntax': lambda x: run_outlier_detection('Outlier_detection/8-8-8_syntax_Dataset/', x)}
