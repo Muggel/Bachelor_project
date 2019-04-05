@@ -181,6 +181,7 @@ def main(path_dataset, path_vectors):
     dataset.read_dataset()
     input_vectors, dimensions = getting_vectors(path_vectors, dataset.setWords)
 
+    vectors_not_found = []
     dict_compactness = {}
     count_total_outliers = 0
     num_outliers_detected = 0
@@ -202,14 +203,14 @@ def main(path_dataset, path_vectors):
         for outlier in cluster.outliers:
             # This makes sure that the score doesn't get better, if we don't know the vector for the outlier.
             if module(input_vectors[outlier]) == 0.0:
-                print("No vector found for the outlier: ", outlier)
+                vectors_not_found.append(outlier)
                 continue
 
             comp_score_outlier = 0.0
             dict_compactness.clear()
             for element_cluster_1 in cluster.elements:
                 if module(input_vectors[element_cluster_1]) == 0.0:
-                    print("No vector found for the outlier: ", outlier)
+                    vectors_not_found.append(outlier)
                     break
 
 
@@ -296,6 +297,12 @@ def main(path_dataset, path_vectors):
         results_by_cluster_string += "\nNumber of outliers in this topic: " + str(
             len(cluster.outliers)
         )
+
+    if vectors_not_found:
+        print("ERROR: No vector could be found for the following words:")
+        for word in vectors_not_found:
+            print(word)
+        return
 
     score_opp = ((sum_positions_percentage * 1.0) / count_total_outliers) * 100
     accuracy = ((num_outliers_detected * 1.0) / count_total_outliers) * 100.0
