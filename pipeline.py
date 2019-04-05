@@ -45,7 +45,7 @@ def create_vocabs_word2vecf(path_to_word2vecf_folder):
         -min-count 50".format(path_to_word2vecf_folder))
 
 
-def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_conllu_file, outputfile):
+def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_conllu_file, outputfile, negative):
     """ Trains the word embedding vectors with word2vecf.
         
     This function creates the file vectors.txt 
@@ -70,9 +70,9 @@ def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_con
         -cvocab cv \
         -output {} \
         -size 300 \
-        -negative 1 \
+        -negative {} \
         -threads 12 \
-        -dumpcv dim200context-vecs".format(path_to_word2vecf_folder, outputfile))
+        -dumpcv dim200context-vecs".format(path_to_word2vecf_folder, outputfile, negative))
 
 def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, outputfile, cbow_or_skipgram, window, negative, hs):
     """Trains the word embedding vectors with word2vec.
@@ -132,25 +132,30 @@ if __name__ == "__main__":
     parser.add_argument('-parsed',
                         default='parsed_dataset.conllu',
                         help='Path to the parsed dataset. Default is ./parsed_dataset.conllu.')
+    parser.add_argument('-iter',
+                        default="1",
+                        help='number of iterations the pipeline should be run. Default is 1')
     parser.parse_args(namespace=args)
     
     args = parser.parse_args()
 
-    vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", args.tokenized, "vectors_skipgram.txt", 0, 10, 15, 0),
-                     'cbow': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", args.tokenized, "vectors_cbow.txt", 1, 5, 0, 1),
-                     'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", args.parsed, "vectors_w2vf.txt")}
 
-    task_func_dict = {'semant': lambda x: run_outlier_detection('Outlier_detection/8-8-8_Dataset/', x),
-                      'syntax': lambda x: run_outlier_detection('Outlier_detection/8-8-8_syntax_Dataset/', x)}
+    for i in range(int(args.iter)):
+        vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", args.tokenized, "vectors_skipgram{}.txt".format(i), 0, 10, 15, 0),
+                        'cbow': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", args.tokenized, "vectors_cbow{}.txt".format(i), 1, 5, 0, 1),
+                        'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", args.parsed, "vectors_w2vf{}.txt".format(i), 15)}
 
-    vector_file_dict = {'skipgram': "/Users/jesperbrink/Downloads/vectors_skipgram.txt",
-                        'cbow': "vectors_cbow5.txt",
-                        'w2vf': "vectors_w2vf.txt"}
+        task_func_dict = {'semant': lambda x: run_outlier_detection('Outlier_detection/8-8-8_Dataset/', x),
+                        'syntax': lambda x: run_outlier_detection('Outlier_detection/8-8-8_syntax_Dataset/', x)}
 
-    if args.train: [vec_func_dict[x]() for x in set(args.vectorize)]
+        vector_file_dict = {'skipgram': "vectors_skipgram{}.txt".format(i),
+                            'cbow': "vectors_cbow{}.txt".format(i),
+                            'w2vf': "vectors_w2vf{}.txt".format(i)}
 
-    if args.tasks:
-        task_set = {task_func_dict[x] for x in args.tasks}
+        if args.train: [vec_func_dict[x]() for x in set(args.vectorize)]
 
-        for task, vectors in itertools.product(task_set, args.vectorize):
-            task(vector_file_dict[vectors])
+        if args.tasks:
+            task_set = {task_func_dict[x] for x in args.tasks}
+
+            for task, vectors in itertools.product(task_set, args.vectorize):
+                task(vector_file_dict[vectors])
