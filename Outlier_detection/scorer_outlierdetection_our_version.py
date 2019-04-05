@@ -208,6 +208,11 @@ def main(path_dataset, path_vectors):
             comp_score_outlier = 0.0
             dict_compactness.clear()
             for element_cluster_1 in cluster.elements:
+                if module(input_vectors[element_cluster_1]) == 0.0:
+                    print("No vector found for the outlier: ", outlier)
+                    break
+
+
                 # calculate the similarities of the current element and the outlier
                 sim_outlier_element = cosine(
                     input_vectors[element_cluster_1], input_vectors[outlier]
