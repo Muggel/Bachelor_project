@@ -2,8 +2,8 @@ import os
 import argparse
 import subprocess 
 import itertools
-from Outlier_detection import scorer_outlierdetection as so
-#from Outlier_detection import scorer_outlierdetection_our_version as so
+#from Outlier_detection import scorer_outlierdetection as so
+from Outlier_detection import scorer_outlierdetection_our_version as so
 from collections import OrderedDict
 
 # convert files with: cat PATH_TO_CONLLU_FILE | perl conllu_to_conllx.pl  > PATH_TO_WHERE_CONVERTED_FILE_IS_SAVED
@@ -45,7 +45,7 @@ def create_vocabs_word2vecf(path_to_word2vecf_folder):
         -min-count 50".format(path_to_word2vecf_folder))
 
 
-def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_conllu_file):
+def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_conllu_file, outputfile):
     """ Trains the word embedding vectors with word2vecf.
         
     This function creates the file vectors.txt 
@@ -68,11 +68,11 @@ def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_con
         -train dep.contexts \
         -wvocab wv \
         -cvocab cv \
-        -output word2vecf_vectors.txt \
+        -output {} \
         -size 300 \
         -negative 1 \
         -threads 12 \
-        -dumpcv dim200context-vecs".format(path_to_word2vecf_folder))
+        -dumpcv dim200context-vecs".format(path_to_word2vecf_folder, outputfile))
 
 def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, outputfile, cbow_or_skipgram, window, negative, hs):
     """Trains the word embedding vectors with word2vec.
@@ -138,14 +138,14 @@ if __name__ == "__main__":
 
     vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", args.tokenized, "vectors_skipgram.txt", 0, 10, 15, 0),
                      'cbow': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", args.tokenized, "vectors_cbow.txt", 1, 5, 0, 1),
-                     'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", args.parsed)} #conll_data_set.conllu
+                     'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", args.parsed, "vectors_w2vf.txt")}
 
     task_func_dict = {'semant': lambda x: run_outlier_detection('Outlier_detection/8-8-8_Dataset/', x),
                       'syntax': lambda x: run_outlier_detection('Outlier_detection/8-8-8_syntax_Dataset/', x)}
 
     vector_file_dict = {'skipgram': "/Users/jesperbrink/Downloads/vectors_skipgram.txt",
                         'cbow': "vectors_cbow5.txt",
-                        'w2vf': "conll_data_set.conllu"}
+                        'w2vf': "vectors_w2vf.txt"}
 
     if args.train: [vec_func_dict[x]() for x in set(args.vectorize)]
 
