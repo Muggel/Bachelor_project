@@ -9,7 +9,7 @@ try:
    THR = int(sys.argv[2])
 except IndexError: THR=100
 
-lower=True
+lower=False
 
 def read_conll(fh):
    root = (0,'*root*',-1,'rroot')

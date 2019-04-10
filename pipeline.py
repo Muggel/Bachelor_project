@@ -21,8 +21,8 @@ def create_word_and_context_file_word2vecf(path_to_conllu_file):
             corpus and their corresponding data
     """
 
-    os.system("cut -f 2 {} | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/vocab.py 50 > counted_vocabulary".format(path_to_conllu_file))
-    os.system("cat {} | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/extract_deps.py counted_vocabulary  100 > dep.contexts".format(path_to_conllu_file))
+    os.system("cut -f 2 {} | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/vocab.py 5 > counted_vocabulary".format(path_to_conllu_file))
+    os.system("cat {} | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/extract_deps.py counted_vocabulary 5 > dep.contexts".format(path_to_conllu_file))
     
 
 def create_vocabs_word2vecf(path_to_word2vecf_folder):
@@ -42,7 +42,7 @@ def create_vocabs_word2vecf(path_to_word2vecf_folder):
         -train dep.contexts \
         -cvocab cv \
         -wvocab wv \
-        -min-count 50".format(path_to_word2vecf_folder))
+        -min-count 5".format(path_to_word2vecf_folder))
 
 
 def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_conllu_file, outputfile, negative):
@@ -72,7 +72,8 @@ def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_con
         -size 300 \
         -negative {} \
         -threads 12 \
-        -dumpcv dim200context-vecs".format(path_to_word2vecf_folder, outputfile, negative))
+        -iter 5 \
+        -sample 1e-3".format(path_to_word2vecf_folder, outputfile, negative))
 
 def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, outputfile, cbow_or_skipgram, window, negative, hs):
     """Trains the word embedding vectors with word2vec.
