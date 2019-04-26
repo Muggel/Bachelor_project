@@ -109,6 +109,11 @@ def run_outlier_detection(path_to_dataset, vectors):
     
     so.main(path_to_dataset, vectors)
 
+def run_analogy_task(path_to_word2vecf_folder, vectors, questions_file):
+    # The vector file has to be a .bin
+    vectors = vectors.split(".")[0] + ".bin"
+    os.system("{}/compute-accuracy-our-version {} < {}".format(path_to_word2vecf_folder, vectors, questions_file))
+
 class Args:
     pass
 
@@ -121,7 +126,7 @@ if __name__ == "__main__":
                         nargs='+',
                         required=True)
     parser.add_argument('-tasks', '-t',
-                        choices=['semant', 'syntax'],
+                        choices=['semant', 'syntax', 'analogy'],
                         help='The task that is to be run with the vectorizing methods.',
                         nargs='+')
     parser.add_argument('-train',
@@ -133,9 +138,11 @@ if __name__ == "__main__":
     parser.add_argument('-parsed',
                         default='parsed_dataset.conllu',
                         help='Path to the parsed dataset. Default is ./parsed_dataset.conllu.')
+    parser.add_argument('-questions',
+                        help='Path to the questions file for the analogy task.')
     parser.add_argument('-iter',
                         default="1",
-                        help='number of iterations the pipeline should be run. Default is 1')
+                        help='number of iterations the pipeline should be run. Default is 1.')
     parser.parse_args(namespace=args)
     
     args = parser.parse_args()
@@ -147,7 +154,8 @@ if __name__ == "__main__":
                         'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", args.parsed, "vectors_w2vf{}.txt".format(i), 15)}
 
         task_func_dict = {'semant': lambda x: run_outlier_detection('Outlier_detection/8-8-8_Dataset/', x),
-                        'syntax': lambda x: run_outlier_detection('Outlier_detection/8-8-8_syntax_Dataset/', x)}
+                        'syntax': lambda x: run_outlier_detection('Outlier_detection/8-8-8_syntax_Dataset/', x),
+                        'analogy': lambda x: run_analogy_task('yoavgo-word2vecf-0d8e19d2f2c6', x, args.questions)}
 
         vector_file_dict = {'skipgram': "vectors_skipgram{}.txt".format(i),
                             'cbow': "vectors_cbow{}.txt".format(i),
