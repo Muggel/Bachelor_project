@@ -112,7 +112,7 @@ def run_outlier_detection(path_to_dataset, vectors):
 def run_analogy_task(path_to_word2vecf_folder, vectors, questions_file):
     # The vector file has to be a .bin
     vectors = vectors.split(".")[0] + ".bin"
-    os.system("{}/compute-accuracy-our-version {} < {}".format(path_to_word2vecf_folder, vectors, questions_file))
+    os.system("{}/compute-accuracy-our-version {} < {} > analogy_task_results.txt".format(path_to_word2vecf_folder, vectors, questions_file))
 
 class Args:
     pass
