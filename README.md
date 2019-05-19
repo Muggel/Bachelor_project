@@ -19,7 +19,7 @@ This is the source code for our bachelor project (2019).
 * binary \<int\> Type of output file, binary 0 = txt and binary 1 = bin (default 0).
 * save-vocab \<file\>: Save the vocabulary to file.
 * read-vocab \<file\>: Read vocabulary from file instead of constructing from the training data.
-* cbow \<int\>: cbow 0 = CBOW and cbow 1 = Skip-Gram.
+* cbow \<int\>: cbow 1 = CBOW and cbow 0 = Skip-Gram.
 
 ## Word2VecF args
 * train \<file\>: Dataset to train the model.
