@@ -6,6 +6,8 @@ SKRIV HVOR DE FORSKELLIGE STYKKER KODE ER FRA
 
 SKRIV HVORDAN MAN KØRER DE FORSKELLIGE TING
 
+ÆNDR TITEL
+
 ## Word2Vec args
 * train \<file\>: Dataset to train the model.
 * output \<file\>: Output file for the resulting word vectors.
