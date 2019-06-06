@@ -1,7 +1,9 @@
 # Bachelor_project
 
 This is the source code for our bachelor project (2019).
+
 SKRIV HVOR DE FORSKELLIGE STYKKER KODE ER FRA
+
 SKRIV HVORDAN MAN KØRER DE FORSKELLIGE TING
 
 ## Word2Vec args
