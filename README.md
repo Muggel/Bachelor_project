@@ -1,12 +1,13 @@
-# Bachelor_project
+# Evaluation of Word Embeddings for Natural Language Processing Tasks, and a Proposal for Dependency Based Contexts
 
 This is the source code for our bachelor project (2019).
 
-SKRIV HVOR DE FORSKELLIGE STYKKER KODE ER FRA
+The word2vecf folder is from the official repository for Word2VecF: https://bitbucket.org/yoavgo/word2vecf/src/default/
 
-SKRIV HVORDAN MAN KØRER DE FORSKELLIGE TING
-
-ÆNDR TITEL
+* To train a either CBOW or Skip-gram use: `python3 pipeline.py -v [MODEL_TYPE] -tokenized [PATH_TO_TOKENIZED_FILE] -train`
+* To train a Word2VecF or Word2VecFix use: `python3 pipeline.py -v [MODEL_TYPE] -parsed [PATH_TO_PARSED_FILE] -train`
+* To run task 1 or 2 on one of the trained models use: `python3 pipeline.py -v [MODEL_TYPE] -t [TASK]`
+* To run task 3 on one of the trained models use: `python3 pipeline.py -v [MODEL_TYPE] -t [TASK] -questions [PATH_TO_QUESIONS]`
 
 ## Word2Vec args
 * train \<file\>: Dataset to train the model.
