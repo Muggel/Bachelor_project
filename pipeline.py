@@ -1,13 +1,10 @@
 import os
 import argparse
-import subprocess 
+import subprocess
 import itertools
-#from Outlier_detection import scorer_outlierdetection as so
 from Outlier_detection import scorer_outlierdetection_our_version as so
 from collections import OrderedDict
 
-# convert files with: cat PATH_TO_CONLLU_FILE | perl conllu_to_conllx.pl  > PATH_TO_WHERE_CONVERTED_FILE_IS_SAVED
-# get it by cloning: https://github.com/UniversalDependencies/tools
 
 def create_word_and_context_file_word2vecf(path_to_conllu_file):
     """ Create a file with words and their context.
@@ -21,20 +18,20 @@ def create_word_and_context_file_word2vecf(path_to_conllu_file):
             corpus and their corresponding data
     """
 
-    os.system("cut -f 2 {} | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/vocab.py 5 > counted_vocabulary".format(path_to_conllu_file))
-    os.system("cat {} | python yoavgo-word2vecf-0d8e19d2f2c6/scripts/extract_deps.py counted_vocabulary 5 > dep.contexts".format(path_to_conllu_file))
-    
+    os.system("cut -f 2 {} | python word2vecf/scripts/vocab.py 5 > counted_vocabulary".format(path_to_conllu_file))
+    os.system("cat {} | python word2vecf/scripts/extract_deps_fixed.py counted_vocabulary 5 > dep.contexts".format(path_to_conllu_file))
+
 
 def create_vocabs_word2vecf(path_to_word2vecf_folder):
     """ Create word and context vocabularies.
 
-    This function creates a word vocabulary (wv) and 
+    This function creates a word vocabulary (wv) and
     a context vocabularie (cv), based on the dep.contexts
     file.
 
     Args:
         path_to_word2vecf_folder: The path to the
-            folder where the executable count_and_filer file 
+            folder where the executable count_and_filer file
             is located.
     """
 
@@ -47,15 +44,15 @@ def create_vocabs_word2vecf(path_to_word2vecf_folder):
 
 def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_conllu_file, outputfile, negative):
     """ Trains the word embedding vectors with word2vecf.
-        
-    This function creates the file vectors.txt 
-    containing the word embedding vectors for the 
+
+    This function creates the file vectors.txt
+    containing the word embedding vectors for the
     words in the corpus, and the vectors for the
     context.
 
     Args:
         path_to_word2vecf_folder: The path to the
-            folder where the executable word2vecf file 
+            folder where the executable word2vecf file
             is located.
         path_to_conllu_file: The path to the conllu file that
             contains the information about the words in the
@@ -75,21 +72,22 @@ def train_word_embedding_vectors_word2vecf(path_to_word2vecf_folder, path_to_con
         -iter 5 \
         -sample 1e-3".format(path_to_word2vecf_folder, outputfile, negative))
 
+
 def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, outputfile, cbow_or_skipgram, window, negative, hs):
     """Trains the word embedding vectors with word2vec.
-    
+
     The vectors generated from running this function
     is outputted to the file vectors.txt.
 
     Args:
         path_to_word2vecf_folder: The path to the
-            folder where the executable word2vec file 
-            is located. (It is not a mistake it is to the 
+            folder where the executable word2vec file
+            is located. (It is not a mistake it is to the
         word2vecf folder. This folder also contains
             an implementation of word2vec).
             path_to_dataset: The path to the dataset that
             should be used to extract word embeddings from.
-        cbow_or_skipgram: If 0 run cbow. If 1 run skip-gram
+        cbow_or_skipgram: If 1 run cbow. If 0 run skip-gram
     """
 
     os.system("{}/word2vec \
@@ -101,32 +99,36 @@ def train_word_embedding_vectors(path_to_word2vecf_folder, path_to_dataset, outp
         -negative {} \
         -hs {} \
         -sample 1e-3 \
-        -threads 12".format(path_to_word2vecf_folder, path_to_dataset, outputfile, cbow_or_skipgram, window, negative, hs))    
+        -threads 12".format(path_to_word2vecf_folder, path_to_dataset, outputfile, cbow_or_skipgram, window, negative, hs))
+
 
 def run_outlier_detection(path_to_dataset, vectors):
     """Runs the outlier detection script from the outlier detection paper
     on the word embedding vectors in the file vectors.txt"""
-    
+    print("## File:" + vectors + " ###")
     so.main(path_to_dataset, vectors)
+
 
 def run_analogy_task(path_to_word2vecf_folder, vectors, questions_file, iteration):
     # The vector file has to be a .bin
     vectors = vectors.split(".")[0] + ".bin"
     os.system("{}/compute-accuracy-our-version {} < {} > analogy_results_{}.txt".format(path_to_word2vecf_folder, vectors, questions_file, iteration))
 
+
 class Args:
     pass
+
 
 if __name__ == "__main__":
     args = Args()
     parser = argparse.ArgumentParser()
-    parser.add_argument('-vectorize', '-v', 
-                        choices=['skipgram', 'cbow', 'w2vf'],
+    parser.add_argument('-vectorize', '-v',
+                        choices=['skipgram', 'cbow', 'w2vf', 'w2vfix'],
                         help='The vectorizing methods used in the given task. It is required to give at least one',
                         nargs='+',
                         required=True)
     parser.add_argument('-tasks', '-t',
-                        choices=['semant', 'syntax', 'analogy'],
+                        choices=['semant', 'syntax', 'syntax2', 'analogy'],
                         help='The task that is to be run with the vectorizing methods.',
                         nargs='+')
     parser.add_argument('-train',
@@ -144,22 +146,25 @@ if __name__ == "__main__":
                         default="1",
                         help='number of iterations the pipeline should be run. Default is 1.')
     parser.parse_args(namespace=args)
-    
+
     args = parser.parse_args()
 
 
     for i in range(int(args.iter)):
-        vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", args.tokenized, "vectors_skipgram{}.txt".format(i), 0, 10, 15, 0),
-                        'cbow': lambda: train_word_embedding_vectors("yoavgo-word2vecf-0d8e19d2f2c6", args.tokenized, "vectors_cbow{}.txt".format(i), 1, 5, 0, 1),
-                        'w2vf': lambda: train_word_embedding_vectors_word2vecf("yoavgo-word2vecf-0d8e19d2f2c6", args.parsed, "vectors_w2vf{}.txt".format(i), 15)}
+        vec_func_dict = {'skipgram': lambda: train_word_embedding_vectors("word2vecf", args.tokenized, "vectors_skipgram{}.txt".format(i), 0, 10, 15, 0),
+                        'cbow': lambda: train_word_embedding_vectors("word2vecf", args.tokenized, "vectors_cbow{}.txt".format(i), 1, 5, 0, 1),
+                        'w2vf': lambda: train_word_embedding_vectors_word2vecf("word2vecf", args.parsed, "vectors_w2vf{}.txt".format(i), 15),
+                        'w2vfix': lambda: train_word_embedding_vectors_word2vecf("word2vecf", args.parsed, "vectors_w2vfix{}.txt".format(i), 15)}
 
         task_func_dict = {'semant': lambda x: run_outlier_detection('Outlier_detection/8-8-8_Dataset/', x),
-                        'syntax': lambda x: run_outlier_detection('Outlier_detection/8-8-8_syntax_Dataset/', x),
-                        'analogy': lambda x: run_analogy_task('yoavgo-word2vecf-0d8e19d2f2c6', x, args.questions, i)}
+                        'syntax': lambda x: run_outlier_detection('Outlier_detection/8-8-8_syntax_Dataset_lowercased/', x),
+                        'syntax2': lambda x: run_outlier_detection('Outlier_detection/8-8-8_syntax_Dataset_2/', x),
+                        'analogy': lambda x: run_analogy_task('word2vecf', x, args.questions, i)}
 
         vector_file_dict = {'skipgram': "vectors_skipgram{}.txt".format(i),
                             'cbow': "vectors_cbow{}.txt".format(i),
-                            'w2vf': "vectors_w2vf{}.txt".format(i)}
+                            'w2vf': "vectors_w2vf{}.txt".format(i),
+                            'w2vfix': "vectors_w2vfix{}.txt".format(i)}
 
         if args.train: [vec_func_dict[x]() for x in set(args.vectorize)]
 

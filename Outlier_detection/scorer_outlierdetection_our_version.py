@@ -311,14 +311,15 @@ def main(path_dataset, path_vectors):
     print(("Accuracy: " + str(accuracy)))
     print(("\nTotal number of outliers: " + str(count_total_outliers)))
 
-    answer = input("\n\nWould you like to see the results by topic? [Y|N]")
-    boolean = boolean_answer(answer)
-    if boolean:
-        print(results_by_cluster_string)
-        answer_2 = input("\n\nWould you like to see a more detailed summary? [Y|N]")
-        boolean_2 = boolean_answer(answer_2)
-        if boolean_2:
-            print(detailed_results_string)
+    print("Would you like to see the results by topic?")
+    #answer = input("\n\nWould you like to see the results by topic? [Y|N]")
+    #boolean = boolean_answer(answer)
+    #if boolean:
+    print(results_by_cluster_string)
+    #    answer_2 = input("\n\nWould you like to see a more detailed summary? [Y|N]")
+    #    boolean_2 = boolean_answer(answer_2)
+    #    if boolean_2:
+    print(detailed_results_string)
 
 
 if __name__ == "__main__":
