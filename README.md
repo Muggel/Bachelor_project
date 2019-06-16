@@ -3,6 +3,7 @@
 This is the source code for our bachelor project (2019).
 
 The word2vecf folder is from the official repository for Word2VecF: https://bitbucket.org/yoavgo/word2vecf/src/default/
+The Outlier_detection folder is from official repository for the 'Find the word that does not belong' paper: ?????
 
 * To train a either CBOW or Skip-gram use: `python3 pipeline.py -v [MODEL_TYPE] -tokenized [PATH_TO_TOKENIZED_FILE] -train`
 * To train a Word2VecF or Word2VecFix use: `python3 pipeline.py -v [MODEL_TYPE] -parsed [PATH_TO_PARSED_FILE] -train`
