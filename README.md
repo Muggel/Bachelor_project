@@ -10,6 +10,10 @@ The Outlier_detection folder is from official repository for the 'Find the word 
 * To run task 1 or 2 on one of the trained models use: `python3 pipeline.py -v [MODEL_TYPE] -t [TASK]`
 * To run task 3 on one of the trained models use: `python3 pipeline.py -v [MODEL_TYPE] -t [TASK] -questions [PATH_TO_QUESIONS]`
 
+The models and task:  
+* MODEL_TYPE: skipgram, cbow, w2vf, w2vfix
+* TASK: semant, syntax, syntax2, analogy
+
 ## Word2Vec args
 * train \<file\>: Dataset to train the model.
 * output \<file\>: Output file for the resulting word vectors.
