@@ -2,10 +2,12 @@
 
 This is the source code for our bachelor project (2019).
 
-The word2vecf folder is from the official repository for Word2VecF: https://bitbucket.org/yoavgo/word2vecf/src/default/
-The Outlier_detection folder is from the 'Find the word that does not belong' paper: https://www.aclweb.org/anthology/W16-2508
-The Task3 data comes from: https://github.com/tmikolov/word2vec
+Code taken from others:
+* The word2vecf folder is from the official repository for Word2VecF: https://bitbucket.org/yoavgo/word2vecf/src/default/
+* The Outlier_detection folder is from the 'Find the word that does not belong' paper: https://www.aclweb.org/anthology/W16-2508
+* The Task3 data comes from: https://github.com/tmikolov/word2vec
 
+How to run the code:
 * To train a either CBOW or Skip-gram use: `python3 pipeline.py -v [MODEL_TYPE] -tokenized [PATH_TO_TOKENIZED_FILE] -train`
 * To train a Word2VecF or Word2VecFix use: `python3 pipeline.py -v [MODEL_TYPE] -parsed [PATH_TO_PARSED_FILE] -train`
 * To run task 1 or 2 on one of the trained models use: `python3 pipeline.py -v [MODEL_TYPE] -t [TASK]`
